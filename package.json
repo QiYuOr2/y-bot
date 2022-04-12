@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "js-yaml": "^4.1.0",
     "mirai-ts": "^2.2.1"
   },

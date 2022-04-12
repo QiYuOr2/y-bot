@@ -22,12 +22,12 @@ const mirai = new Mirai(setting);
 async function app() {
   const c = new YCommand();
   await mirai.link(qq);
-  mirai.on('message', (msg) => {
+  mirai.on('message', async (msg) => {
     console.log(msg);
     if (msg.plain.slice(0, 1) === '$') {
       const [name, ...options] = msg.plain.split(' ');
 
-      msg.reply(c.exec(name.slice(1), [msg.sender.id, ...options]));
+      msg.reply(await c.exec(name.slice(1), [msg.sender.id, ...options]));
       return;
     }
     // 复读
