@@ -4,6 +4,8 @@ import { rollFood } from './eat';
 import { hitokoto } from './hitokoto';
 import { atk } from './atk';
 import { fate } from './roll';
+import { anime } from './bangumi';
+import { bili, weibo } from './hot';
 
 type Action = (...args: any) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
 
@@ -16,6 +18,8 @@ export class YCommand {
       help: this.help,
       atk,
       roll: this.roll,
+      daily: anime,
+      hot: this.hot,
     };
   }
 
@@ -24,9 +28,12 @@ export class YCommand {
       '当前支持指令:',
       '$eat [roll一个饭/菜]',
       '$hello [一言]',
-      '$atk [你攻击性好强]',
+      '$atk @user [你攻击性好强]',
       '$roll 1 [抽个签]',
       '$roll 10 [抽十个签]',
+      '$daily [今日更新的番剧]',
+      '$hot bili [b站当前热搜]',
+      '$hot weibo [微博当前热搜]',
     ];
     return [Message.Plain(helpText.join('\n'))];
   }
@@ -48,6 +55,18 @@ export class YCommand {
         return fate();
       case 10:
         return fate(10);
+      default:
+        return [Message.Plain('暂不支持该参数喵！')];
+    }
+  }
+
+  hot(options: any[]) {
+    const [, , flag] = options;
+    switch (flag) {
+      case 'bili':
+        return bili();
+      case 'weibo':
+        return weibo();
       default:
         return [Message.Plain('暂不支持该参数喵！')];
     }

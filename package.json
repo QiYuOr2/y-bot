@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
+    "cheerio": "^1.0.0-rc.10",
     "js-yaml": "^4.1.0",
     "mirai-ts": "^2.2.1"
   },
