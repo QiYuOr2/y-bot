@@ -9,10 +9,7 @@ const qq = 2799397589;
 
 const setting = yaml.load(
   fs.readFileSync(
-    path.resolve(
-      __dirname,
-      '../../../app/mcl/config/net.mamoe.mirai-api-http/setting.yml'
-    ),
+    path.resolve(__dirname, '../../../app/mcl/config/net.mamoe.mirai-api-http/setting.yml'),
     'utf8'
   )
 ) as MiraiApiHttpSetting;
@@ -27,8 +24,13 @@ async function app() {
     if (msg.plain.slice(0, 1) === '$') {
       const [name, ...options] = msg.plain.split(' ');
 
-      msg.reply(await c.exec(name.slice(1), [msg.sender.id, ...options]));
+      msg.reply(await c.exec(name.slice(1), [msg.sender.id, msg.messageChain, ...options]));
       return;
+    }
+
+    const whl = c.whl(msg.plain);
+    if (whl) {
+      msg.reply(whl);
     }
     // 复读
     // msg.reply(msg.messageChain);

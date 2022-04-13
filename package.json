@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/main.js",
-    "build": "tsc"
+    "start": "tsc && node dist/main.js",
+    "build": "tsc",
+    "deploy": "pm2 start dist/main.js --name=bot"
   },
   "keywords": [],
   "author": "",
