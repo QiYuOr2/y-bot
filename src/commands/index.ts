@@ -6,6 +6,8 @@ import { atk } from './atk';
 import { fate } from './roll';
 import { anime } from './bangumi';
 import { bili, weibo } from './hot';
+import { toNihon } from './transfor';
+import path from 'path';
 
 type Action = (...args: any) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
 
@@ -20,6 +22,7 @@ export class YCommand {
       roll: this.roll,
       daily: anime,
       hot: this.hot,
+      t: this.transfor,
     };
   }
 
@@ -34,6 +37,7 @@ export class YCommand {
       '$daily [今日更新的番剧]',
       '$hot bili [b站当前热搜]',
       '$hot weibo [微博当前热搜]',
+      '$t 随便写点什么 [用平假名标记文字]',
     ];
     return [Message.Plain(helpText.join('\n'))];
   }
@@ -44,6 +48,17 @@ export class YCommand {
     }
     if (msg.includes('涩涩') || msg.includes('色色')) {
       return [Message.Plain('变态，禁止涩涩！')];
+    }
+  }
+
+  kaibai(msg: string) {
+    if (msg === '开摆') {
+      return [
+        Message.Image(
+          null,
+          'https://cdn.jsdelivr.net/gh/qiyuor2/blog-image/img/20220413kaibai.jpg'
+        ),
+      ];
     }
   }
 
@@ -70,6 +85,11 @@ export class YCommand {
       default:
         return [Message.Plain('暂不支持该参数喵！')];
     }
+  }
+
+  transfor(options: any[]) {
+    const [, , msg] = options;
+    return toNihon(msg);
   }
 
   async exec(name: string, options: any[]) {

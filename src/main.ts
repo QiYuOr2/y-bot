@@ -16,11 +16,13 @@ const setting = yaml.load(
 
 const mirai = new Mirai(setting);
 
+let autoReply = false;
 async function app() {
   const c = new YCommand();
   await mirai.link(qq);
   mirai.on('message', async (msg) => {
     console.log(msg);
+
     if (msg.plain.slice(0, 1) === '$') {
       const [name, ...options] = msg.plain.split(' ');
 
@@ -31,9 +33,30 @@ async function app() {
     const whl = c.whl(msg.plain);
     if (whl) {
       msg.reply(whl);
+      return;
     }
+
+    const kaibai = c.kaibai(msg.plain);
+    if (kaibai) {
+      msg.reply(kaibai);
+      return;
+    }
+
+    // if (msg.plain === '开启复读模式') {
+    //   autoReply = true;
+    // }
+
+    // if (msg.plain === '关闭复读模式') {
+    //   autoReply = false;
+    // }
+
+    // if (msg.plain.includes('老婆')) {
+    //   msg.reply('是在叫我吗？', true);
+    //   return;
+    // }
+
     // 复读
-    // msg.reply(msg.messageChain);
+    autoReply && msg.reply(msg.messageChain);
   });
   mirai.listen();
 }
