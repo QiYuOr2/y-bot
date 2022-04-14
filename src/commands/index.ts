@@ -1,4 +1,4 @@
-import { Message, MessageType } from 'mirai-ts';
+import { Message, MessageType, Mirai } from 'mirai-ts';
 import { isPromise } from 'util/types';
 import { rollFood } from './eat';
 import { hitokoto } from './hitokoto';
@@ -7,9 +7,14 @@ import { fate } from './roll';
 import { anime } from './bangumi';
 import { bili, weibo } from './hot';
 import { toNihon } from './transfor';
+import { info } from './search';
+import { gen500 } from './gen';
+import { readToBase64 } from '../common/utils';
 import path from 'path';
 
-type Action = (...args: any) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
+type Action = (
+  ...args: any
+) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
 
 export class YCommand {
   commands: Record<string, Action>;
@@ -23,21 +28,28 @@ export class YCommand {
       daily: anime,
       hot: this.hot,
       t: this.transfor,
+      ['成分']: (options: any[]) => {
+        const [, , uid] = options;
+        return info(uid);
+      },
+      meme1: gen500,
     };
   }
 
   help() {
     const helpText = [
       '当前支持指令:',
-      '$eat [roll一个饭/菜]',
-      '$hello [一言]',
-      '$atk @user [你攻击性好强]',
-      '$roll 1 [抽个签]',
-      '$roll 10 [抽十个签]',
-      '$daily [今日更新的番剧]',
-      '$hot bili [b站当前热搜]',
-      '$hot weibo [微博当前热搜]',
-      '$t 随便写点什么 [用平假名标记文字]',
+      '/eat [roll一个饭/菜]',
+      '/hello [一言]',
+      '/atk @user [你攻击性好强]',
+      '/roll 1 [抽个签]',
+      '/roll 10 [抽十个签]',
+      '/daily [今日更新的番剧]',
+      '/hot bili [b站当前热搜]',
+      '/hot weibo [微博当前热搜]',
+      '/t 随便写点什么 [用平假名标记文字]',
+      '/成分 B站UID [查b站信息]',
+      // '/meme1 上面的文字 下面的文字 [梗图]',
     ];
     return [Message.Plain(helpText.join('\n'))];
   }
@@ -56,7 +68,9 @@ export class YCommand {
       return [
         Message.Image(
           null,
-          'https://cdn.jsdelivr.net/gh/qiyuor2/blog-image/img/20220413kaibai.jpg'
+          null,
+          null,
+          readToBase64(path.join(__dirname, '../../assets/images/kaibai.jpg'))
         ),
       ];
     }
