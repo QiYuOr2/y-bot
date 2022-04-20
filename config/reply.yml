@@ -21,6 +21,14 @@ list:
       image: lianhon.jpg
 
   - receive:
+      text:
+        - 爽不爽
+        - 爽吗
+      is_contains: false
+    return:
+      image: shuobuchuhua.jpg
+
+  - receive:
       text: 开摆
       is_contains: false
     return:
