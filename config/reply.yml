@@ -15,6 +15,14 @@ list:
       text: 憋回去，不许好喵
 
   - receive:
+      text:
+        - 开冲
+        - 冲
+      is_contains: false
+    return:
+      text: 冲个屁，爬
+
+  - receive:
       text: 好涩哦
       is_contains: false
     return:
@@ -26,7 +34,7 @@ list:
         - 爽吗
       is_contains: false
     return:
-      image: shuobuchuhua.jpg
+      text: 啧，就这？
 
   - receive:
       text: 开摆
