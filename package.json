@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node dist/main.js",
     "build": "tsc",
-    "deploy": "pm2 start dist/main.js --name=bot"
+    "deploy": "pm2 start dist/main.js --name=bot",
+    "re": "npm run build && pm2 restart bot"
   },
   "keywords": [],
   "author": "",

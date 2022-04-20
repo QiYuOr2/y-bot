@@ -15,6 +15,12 @@ list:
       text: 憋回去，不许好喵
 
   - receive:
+      text: 好涩哦
+      is_contains: false
+    return:
+      image: lianhon.jpg
+
+  - receive:
       text: 开摆
       is_contains: false
     return:
