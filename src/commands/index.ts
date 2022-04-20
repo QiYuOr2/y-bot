@@ -1,4 +1,4 @@
-import { Message, MessageType, Mirai } from 'mirai-ts';
+import { Message, MessageType } from 'mirai-ts';
 import { isPromise } from 'util/types';
 import { rollFood } from './eat';
 import { hitokoto } from './hitokoto';
@@ -9,8 +9,12 @@ import { bili, weibo } from './hot';
 import { toNihon } from './transfor';
 import { info } from './search';
 import { gen500 } from './gen';
-import { readToBase64 } from '../common/utils';
-import path from 'path';
+import {
+  localImage,
+  readCookMenuConfig,
+  readReplyConfig,
+  ReplyConfig,
+} from '../common/utils';
 
 type Action = (
   ...args: any
@@ -18,9 +22,10 @@ type Action = (
 
 export class YCommand {
   commands: Record<string, Action>;
+  replyConfig: { list: ReplyConfig[] };
   constructor() {
     this.commands = {
-      eat: rollFood,
+      eat: rollFood(readCookMenuConfig().list),
       hello: hitokoto,
       help: this.help,
       atk,
@@ -34,6 +39,8 @@ export class YCommand {
       },
       meme1: gen500,
     };
+
+    this.replyConfig = readReplyConfig();
   }
 
   help() {
@@ -49,32 +56,55 @@ export class YCommand {
       '/hot weibo [微博当前热搜]',
       '/t 随便写点什么 [用平假名标记文字]',
       '/成分 B站UID [查b站信息]',
-      // '/meme1 上面的文字 下面的文字 [梗图]',
+      '/meme1 上面的文字 下面的文字 [5000万日元梗图]',
     ];
     return [Message.Plain(helpText.join('\n'))];
   }
 
-  whl(msg: string) {
-    if (msg === '我好了') {
-      return [Message.Plain('憋回去，不许好喵!')];
-    }
-    if (msg.includes('涩涩') || msg.includes('色色')) {
-      return [Message.Plain('变态，禁止涩涩！')];
-    }
+  //#region 自动回复
+  #returnMsg(returnOptions: { text?: string; image?: string }) {
+    let result = [];
+    returnOptions.image && result.push(localImage(returnOptions.image));
+    returnOptions.text && result.push(Message.Plain(returnOptions.text));
+    return result.length ? result : null;
   }
 
-  kaibai(msg: string) {
-    if (msg === '开摆') {
-      return [
-        Message.Image(
-          null,
-          null,
-          null,
-          readToBase64(path.join(__dirname, '../../assets/images/kaibai.jpg'))
-        ),
-      ];
+  #receiveContainsHandler(config: ReplyConfig, msg: string) {
+    if (Array.isArray(config.receive.text)) {
+      return config.receive.text.some((key) => msg.includes(key))
+        ? this.#returnMsg(config.return)
+        : null;
     }
+    return msg.includes(config.receive.text)
+      ? this.#returnMsg(config.return)
+      : null;
   }
+
+  #receiveEqHandler(config: ReplyConfig, msg: string) {
+    if (Array.isArray(config.receive.text)) {
+      return config.receive.text.some((key) => msg === key)
+        ? this.#returnMsg(config.return)
+        : null;
+    }
+    return msg === config.receive.text ? this.#returnMsg(config.return) : null;
+  }
+
+  autoReply(msg: string) {
+    const { list } = this.replyConfig;
+    let result = null;
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      result =
+        item.receive.is_contains === true
+          ? this.#receiveContainsHandler(item, msg)
+          : this.#receiveEqHandler(item, msg);
+      if (result) {
+        break;
+      }
+    }
+    return result;
+  }
+  //#endregion
 
   roll(options: any[]) {
     const [, , flag] = options;

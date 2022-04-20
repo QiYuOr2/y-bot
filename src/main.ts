@@ -39,33 +39,11 @@ async function app() {
       return;
     }
 
-    const whl = c.whl(msg.plain);
-    if (whl) {
-      msg.reply(whl);
+    const autoReplyMessage = c.autoReply(msg.plain);
+    if (autoReplyMessage) {
+      msg.reply(autoReplyMessage);
       return;
     }
-
-    const kaibai = c.kaibai(msg.plain);
-    if (kaibai) {
-      msg.reply(kaibai);
-      return;
-    }
-
-    // if (msg.plain === '开启复读模式') {
-    //   autoReply = true;
-    // }
-
-    // if (msg.plain === '关闭复读模式') {
-    //   autoReply = false;
-    // }
-
-    // if (msg.plain.includes('老婆')) {
-    //   msg.reply('是在叫我吗？', true);
-    //   return;
-    // }
-
-    // 复读
-    autoReply && msg.reply(msg.messageChain);
   });
   mirai.listen();
 }

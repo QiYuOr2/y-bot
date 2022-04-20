@@ -1,0 +1,29 @@
+list:
+  - receive:
+      text: # text可以是string或string[]
+        - 涩涩
+        - 色色
+        - 瑟瑟
+      is_contains: true # true为包含模式：只要含有关键词就会触发
+    return:
+      text: 变态，禁止涩涩！
+
+  - receive:
+      text: 我好了
+      is_contains: false
+    return:
+      text: 憋回去，不许好喵
+
+  - receive:
+      text: 开摆
+      is_contains: false
+    return:
+      image: kaibai.jpg # 图片名，会映射到/assets/images/{图片名}
+
+  - receive:
+      text:
+        - 早安
+        - 早上好
+      is_contains: true
+    return:
+      image: zao.jpg
