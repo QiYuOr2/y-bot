@@ -3,6 +3,8 @@ import y from 'js-yaml';
 import { Message } from 'mirai-ts';
 import path from 'path';
 
+export const noop = () => {};
+
 export const readToBase64 = (pathname: string) => {
   const image = fs.readFileSync(pathname, 'base64');
   return image;

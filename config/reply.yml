@@ -16,25 +16,33 @@ list:
 
   - receive:
       text:
+        - 爽不爽
+        - 爽吗
+      is_contains: true
+    return:
+      text: 啧，就这？
+
+  - receive:
+      text:
+        - 芜湖起飞
+        - 芜湖
+      is_contains: false
+    return:
+      text: 芜湖起飞
+
+  - receive:
+      text:
         - 开冲
         - 冲
       is_contains: false
     return:
-      text: 冲个屁，爬
+      text: 冲冲冲，天天就知道冲，就不能想点别的吗？
 
   - receive:
       text: 好涩哦
       is_contains: false
     return:
       image: lianhon.jpg
-
-  - receive:
-      text:
-        - 爽不爽
-        - 爽吗
-      is_contains: false
-    return:
-      text: 啧，就这？
 
   - receive:
       text: 开摆

@@ -19,7 +19,6 @@ const setting = yaml.load(
 
 const mirai = new Mirai(setting);
 
-let autoReply = false;
 async function app() {
   const c = new YCommand();
   await mirai.link(qq);

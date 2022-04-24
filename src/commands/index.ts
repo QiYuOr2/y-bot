@@ -1,4 +1,4 @@
-import { Message, MessageType } from 'mirai-ts';
+import { Message, MessageType, template } from 'mirai-ts';
 import { isPromise } from 'util/types';
 import { rollFood } from './eat';
 import { hitokoto } from './hitokoto';
