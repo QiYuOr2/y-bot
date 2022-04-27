@@ -7,18 +7,11 @@ import { fate } from './roll';
 import { anime } from './bangumi';
 import { bili, weibo } from './hot';
 import { toNihon } from './transfor';
-import { info } from './search';
+import { biliVideo, info } from './search';
 import { gen500 } from './gen';
-import {
-  localImage,
-  readCookMenuConfig,
-  readReplyConfig,
-  ReplyConfig,
-} from '../common/utils';
+import { localImage, readCookMenuConfig, readReplyConfig, ReplyConfig } from '../common/utils';
 
-type Action = (
-  ...args: any
-) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
+type Action = (...args: any) => MessageType.MessageChain | Promise<MessageType.MessageChain>;
 
 export class YCommand {
   commands: Record<string, Action>;
@@ -61,51 +54,6 @@ export class YCommand {
     return [Message.Plain(helpText.join('\n'))];
   }
 
-  //#region 自动回复
-  #returnMsg(returnOptions: { text?: string; image?: string }) {
-    let result = [];
-    returnOptions.image && result.push(localImage(returnOptions.image));
-    returnOptions.text && result.push(Message.Plain(returnOptions.text));
-    return result.length ? result : null;
-  }
-
-  #receiveContainsHandler(config: ReplyConfig, msg: string) {
-    if (Array.isArray(config.receive.text)) {
-      return config.receive.text.some((key) => msg.includes(key))
-        ? this.#returnMsg(config.return)
-        : null;
-    }
-    return msg.includes(config.receive.text)
-      ? this.#returnMsg(config.return)
-      : null;
-  }
-
-  #receiveEqHandler(config: ReplyConfig, msg: string) {
-    if (Array.isArray(config.receive.text)) {
-      return config.receive.text.some((key) => msg === key)
-        ? this.#returnMsg(config.return)
-        : null;
-    }
-    return msg === config.receive.text ? this.#returnMsg(config.return) : null;
-  }
-
-  autoReply(msg: string) {
-    const { list } = this.replyConfig;
-    let result = null;
-    for (let i = 0; i < list.length; i++) {
-      const item = list[i];
-      result =
-        item.receive.is_contains === true
-          ? this.#receiveContainsHandler(item, msg)
-          : this.#receiveEqHandler(item, msg);
-      if (result) {
-        break;
-      }
-    }
-    return result;
-  }
-  //#endregion
-
   roll(options: any[]) {
     const [, , flag] = options;
     console.log(options);
@@ -135,6 +83,57 @@ export class YCommand {
     const [, , msg] = options;
     return toNihon(msg);
   }
+
+  async searchBiliVideo(msg: string) {
+    if (msg.search(/BV([0-9]|[a-z]|[A-Z])*/) !== -1) {
+      const bv = msg.match(/BV([0-9]|[a-z]|[A-Z])*/)![0];
+      console.log('bv: ', bv);
+      const result = await biliVideo(bv);
+      return result;
+    }
+    return null;
+  }
+
+  //#region 自动回复
+  #returnMsg(returnOptions: { text?: string; image?: string }) {
+    let result = [];
+    returnOptions.image && result.push(localImage(returnOptions.image));
+    returnOptions.text && result.push(Message.Plain(returnOptions.text));
+    return result.length ? result : null;
+  }
+
+  #receiveContainsHandler(config: ReplyConfig, msg: string) {
+    if (Array.isArray(config.receive.text)) {
+      return config.receive.text.some((key) => msg.includes(key))
+        ? this.#returnMsg(config.return)
+        : null;
+    }
+    return msg.includes(config.receive.text) ? this.#returnMsg(config.return) : null;
+  }
+
+  #receiveEqHandler(config: ReplyConfig, msg: string) {
+    if (Array.isArray(config.receive.text)) {
+      return config.receive.text.some((key) => msg === key) ? this.#returnMsg(config.return) : null;
+    }
+    return msg === config.receive.text ? this.#returnMsg(config.return) : null;
+  }
+
+  autoReply(msg: string) {
+    const { list } = this.replyConfig;
+    let result = null;
+    for (let i = 0; i < list.length; i++) {
+      const item = list[i];
+      result =
+        item.receive.is_contains === true
+          ? this.#receiveContainsHandler(item, msg)
+          : this.#receiveEqHandler(item, msg);
+      if (result) {
+        break;
+      }
+    }
+    return result;
+  }
+  //#endregion
 
   async exec(name: string, options: any[]) {
     if (Object.keys(this.commands).includes(name)) {

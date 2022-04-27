@@ -30,17 +30,18 @@ export type ReplyConfig = {
   };
 };
 export const readReplyConfig = () => {
-  const file = fs.readFileSync(
-    path.join(__dirname, '../../config/reply.yml'),
-    'utf-8'
-  );
+  const file = fs.readFileSync(path.join(__dirname, '../../config/reply.yml'), 'utf-8');
   return y.load(file) as { list: ReplyConfig[] };
 };
 
 export const readCookMenuConfig = () => {
-  const file = fs.readFileSync(
-    path.join(__dirname, '../../config/cook-menu.yml'),
-    'utf-8'
-  );
+  const file = fs.readFileSync(path.join(__dirname, '../../config/cook-menu.yml'), 'utf-8');
   return y.load(file) as { list: string[] };
+};
+
+export const secondToDate = (time: number) => {
+  var h = Math.floor(time / 3600);
+  var m = Math.floor((time / 60) % 60);
+  var s = Math.floor(time % 60);
+  return h + '小时' + m + '分' + s + '秒';
 };
