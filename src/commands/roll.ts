@@ -1,21 +1,18 @@
-import { Message } from 'mirai-ts';
+import { ICommand } from '../core/use-command';
+import { Command, Inject, Options } from '../decorators';
+import { RollService } from '../services';
 
-const fateList = [
-  ['大吉', 10],
-  ['凶', 5],
-  ['末吉', 25],
-  ['小吉', 25],
-  ['吉', 25],
-  ['中吉', 10],
-];
+@Command('roll')
+export class Roll implements ICommand {
+  @Inject() rollService!: RollService;
 
-export const fate = (count = 1) => {
-  const list = fateList.map((item) => new Array(item[1]).fill(item[0])).flat() as string[];
-  const get = new Array(count)
-    .fill(0)
-    .map(() => Message.Plain(list[Math.floor(Math.random() * list.length)] + ' '));
-  return [
-    ...get,
-    // Message.Plain('（大吉概率限时up中！）'),
-  ];
-};
+  @Options('1', '抽一个签')
+  one() {
+    return this.rollService.fate(1);
+  }
+
+  @Options('10', '抽十个签')
+  ten() {
+    return this.rollService.fate(10);
+  }
+}
