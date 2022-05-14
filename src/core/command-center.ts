@@ -13,13 +13,17 @@ export class CommandCenter extends RegisterCenter {
     this.helpList.push(`/${name} [${description}]`);
   }
 
-  async exec(name: string, optionKey: string, ...args: any[]) {
+  async exec(
+    name: string,
+    optionKey: string,
+    messageInfo: { msgOptions: any[]; sender: any; type: string }
+  ) {
     const ins = this.get(name);
     const { funcName } = Reflect.getMetadata(ReflectHelpKey, ins).options.get(
       optionKey
     );
 
-    const result = await ins[funcName](...args);
+    const result = await ins[funcName](messageInfo);
     return result;
   }
 }

@@ -7,12 +7,14 @@ export class Bili implements ICommand {
   @Inject() private biliService!: BiliService;
 
   @Options('user', '用户信息查询')
-  info(uid: string) {
-    return this.biliService.info(uid);
+  info(message: any) {
+    const { msgOptions } = message;
+    return this.biliService.info(msgOptions[0]);
   }
 
   @Options('video', 'BV号查询视频')
-  video(bv: string) {
-    return this.biliService.info(bv);
+  video(message: any) {
+    const { msgOptions } = message;
+    return this.biliService.info(msgOptions);
   }
 }
