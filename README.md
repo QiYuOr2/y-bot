@@ -1,3 +1,3 @@
 # Y Bot - QQ 群机器人
 
-计划重构
+基于 typescript 装饰器重构完成
