@@ -6,7 +6,7 @@ import { BiliService } from '../services';
 export class Bili implements ICommand {
   @Inject() private biliService!: BiliService;
 
-  @Options('user', '用户信息查询')
+  @Options('user', 'UID查询用户信息')
   info(message: any) {
     const { msgOptions } = message;
     return this.biliService.info(msgOptions[0]);
