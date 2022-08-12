@@ -2,7 +2,11 @@ import { ReflectHelpKey } from '../common/constants';
 import { RegisterCenter } from './register-center';
 
 export class CommandCenter extends RegisterCenter {
-  helpList: string[] = [];
+  #helpList: string[] = [];
+
+  get help() {
+    return this.#helpList
+  }
 
   registCommand(constructor: Function, alias?: string): void {
     this.regist(constructor, alias);
@@ -10,7 +14,7 @@ export class CommandCenter extends RegisterCenter {
   }
 
   registHelp(name: string, description: string) {
-    this.helpList.push(`/${name} [${description}]`);
+    this.#helpList.push(`/${name} [${description}]`);
   }
 
   async exec(
