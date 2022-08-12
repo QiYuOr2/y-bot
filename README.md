@@ -1,3 +1,8 @@
-# Y Bot - QQ 群机器人
+# Y Bot
 
-基于 typescript 装饰器重构完成
+## 功能
+
+## 鸣谢
+
+- [mirai](https://github.com/mamoe/mirai)
+- [mirai-ts](https://github.com/YunYouJun/mirai-ts)

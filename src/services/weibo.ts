@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { load } from 'cheerio';
 import { Message } from 'mirai-ts';
-import { Service } from '../decorators';
+import { Service } from '../core/decorators';
 
 @Service()
 export class WeiboService {

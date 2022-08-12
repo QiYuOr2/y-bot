@@ -1,5 +1,5 @@
 import { Message } from 'mirai-ts';
-import { Service } from '../decorators';
+import { Service } from '../core/decorators';
 
 const fateList = [
   ['大吉', 10],

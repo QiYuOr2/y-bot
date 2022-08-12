@@ -1,4 +1,4 @@
-import { ServiceCenter } from "../core/service-center";
+import { ServiceCenter } from "../service-center";
 
 export function Service(alias?: string): ClassDecorator {
   return (target) => {

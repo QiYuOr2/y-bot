@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { ServiceCenter } from '../core/service-center';
+import { ServiceCenter } from '../service-center';
 
 export function Inject(alias?: string): PropertyDecorator {
   return (target, propertyKey) => {

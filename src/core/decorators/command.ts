@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { ReflectHelpKey } from "../common/constants";
-import { CommandCenter } from "../core/command-center";
+import { ReflectHelpKey } from "../../common/constants";
+import { CommandCenter } from "../command-center";
 
 type CommandOptions = { description?: string; notUseName?: boolean };
 

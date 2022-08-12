@@ -1,5 +1,5 @@
 import { ICommand } from '../core/use-command';
-import { Command, Inject, Options } from '../decorators';
+import { Command, Inject, Options } from '../core/decorators';
 import { BiliService } from '../services';
 
 @Command('bili')

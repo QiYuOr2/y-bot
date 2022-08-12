@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Message } from 'mirai-ts';
 import { secondToDate } from '../common/utils';
-import { Service } from '../decorators';
+import { Service } from '../core/decorators';
 
 @Service()
 export class BiliService {

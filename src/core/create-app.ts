@@ -50,7 +50,7 @@ export async function createApp(options: CreateAppOptions) {
   mirai.on("message", async (message) => {
     console.log(message);
 
-    if ((message as MessageType.GroupMessage).isAt()) {
+    if ((message as MessageType.GroupMessage)?.isAt?.()) {
       message.reply("不理你- -");
       return;
     }

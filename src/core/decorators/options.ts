@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ReflectCommandMap, ReflectHelpKey } from "../common/constants";
+import { ReflectCommandMap, ReflectHelpKey } from "../../common/constants";
 
 export function Options(name: string, description: string): MethodDecorator {
   return (target, propertyKey, descriptor) => {
