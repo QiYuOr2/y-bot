@@ -21,13 +21,13 @@ export class Common implements ICommand {
     return this.commonService.hitokoto();
   }
 
-  @Options("daily", "每日放送")
-  daily() {
-    return this.commonService.anime();
-  }
+  // @Options("daily", "每日放送")
+  // daily() {
+  //   return this.commonService.anime();
+  // }
 
-  @Options("hobby", "兴趣爱好推荐")
-  hobby() {
-    return this.commonService.hobby();
-  }
+  // @Options("hobby", "兴趣爱好推荐")
+  // hobby() {
+  //   return this.commonService.hobby();
+  // }
 }

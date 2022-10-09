@@ -11,10 +11,10 @@ type CreateAppOptions = {
 };
 
 async function commandHandler(message: MessageType.GroupMessage | MessageType.FriendMessage) {
-  const [name, optionKey, ...args] = message.plain.split(" ");
-  const hasOptionKey = optionKey && optionKey !== "undefined" && /^[0-9a-zA-Z]*$/g.test(optionKey);
+  let [name, optionKey, ...args] = message.plain.split(" ");
+  let hasOptionKey = optionKey && optionKey !== "undefined" && /^[0-9a-zA-Z]*$/g.test(optionKey);
 
-  const handlerKey = hasOptionKey ? `${name.slice(1)}_${optionKey}` : name.slice(1);
+  let handlerKey = hasOptionKey ? `${name.slice(1)}_${optionKey}` : name.slice(1);
 
   let receive;
 
@@ -27,6 +27,13 @@ async function commandHandler(message: MessageType.GroupMessage | MessageType.Fr
     return;
   }
 
+  if (handlerKey.startsWith('r')) {
+    args = [name, optionKey]
+    optionKey = 'r'
+    handlerKey = 'r'
+    hasOptionKey = true
+  }
+
   const handler = CommandCenter.getInstance().handlers.get(handlerKey);
 
   try {
@@ -37,9 +44,12 @@ async function commandHandler(message: MessageType.GroupMessage | MessageType.Fr
     });
     message.reply(result);
   } catch (error) {
+    console.log(error)
     message.reply(toMessageChain("坏掉了喵QAQ"));
   }
 }
+
+const commander = ['/', '.']
 
 export async function createApp(options: CreateAppOptions) {
   const mirai = new Mirai(options.settings);
@@ -55,7 +65,7 @@ export async function createApp(options: CreateAppOptions) {
       return;
     }
 
-    if (message.plain.slice(0, 1) === "/") {
+    if (commander.includes(message.plain.slice(0, 1))) {
       commandHandler(message as any);
     } else {
       // 自动回复

@@ -50,6 +50,8 @@ export class RegisterCenter {
           ? this.handlers.set(`${item.name}`, helpInfo)
           : this.handlers.set(`${helpInfo.name}_${item.name}`, helpInfo);
       });
+
+      // console.log(helpInfo)
     }
 
     this.instances.set(name, ins);

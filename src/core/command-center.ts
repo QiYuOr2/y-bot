@@ -1,11 +1,11 @@
-import { ReflectHelpKey } from '../common/constants';
-import { RegisterCenter } from './register-center';
+import { ReflectHelpKey, ReflectSkip } from "../common/constants";
+import { RegisterCenter } from "./register-center";
 
 export class CommandCenter extends RegisterCenter {
   #helpList: string[] = [];
 
   get help() {
-    return this.#helpList
+    return this.#helpList;
   }
 
   registCommand(constructor: Function, alias?: string): void {
@@ -17,15 +17,9 @@ export class CommandCenter extends RegisterCenter {
     this.#helpList.push(`/${name} [${description}]`);
   }
 
-  async exec(
-    name: string,
-    optionKey: string,
-    messageInfo: { msgOptions: any[]; sender: any; type: string }
-  ) {
+  async exec(name: string, optionKey: string, messageInfo: { msgOptions: any[]; sender: any; type: string }) {
     const ins = this.get(name);
-    const { funcName } = Reflect.getMetadata(ReflectHelpKey, ins).options.get(
-      optionKey
-    );
+    const { funcName } = Reflect.getMetadata(ReflectHelpKey, ins).options.get(optionKey);
 
     const result = await ins[funcName](messageInfo);
     return result;

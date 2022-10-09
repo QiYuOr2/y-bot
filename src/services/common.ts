@@ -55,6 +55,9 @@ export class CommonService {
     return [Message.Plain(result)];
   }
 
+  /**
+   * 网站部分内容有问题
+   */
   async hobby() {
     try {
       const { data } = await axios.post("http://hobby.lkszj.info/random", { headers: { referer: "http://hobby.lkszj.info/" } });
