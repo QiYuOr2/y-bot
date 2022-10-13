@@ -27,11 +27,11 @@ async function commandHandler(message: MessageType.GroupMessage | MessageType.Fr
     return;
   }
 
-  if (handlerKey.startsWith('r')) {
-    args = [name, optionKey]
-    optionKey = 'r'
-    handlerKey = 'r'
-    hasOptionKey = true
+  if (handlerKey.startsWith("r") && !handlerKey.startsWith("roll")) {
+    args = [name, optionKey];
+    optionKey = "r";
+    handlerKey = "r";
+    hasOptionKey = true;
   }
 
   const handler = CommandCenter.getInstance().handlers.get(handlerKey);
@@ -44,12 +44,12 @@ async function commandHandler(message: MessageType.GroupMessage | MessageType.Fr
     });
     message.reply(result);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     message.reply(toMessageChain("坏掉了喵QAQ"));
   }
 }
 
-const commander = ['/', '.']
+const commander = ["/", "."];
 
 export async function createApp(options: CreateAppOptions) {
   const mirai = new Mirai(options.settings);
@@ -61,7 +61,8 @@ export async function createApp(options: CreateAppOptions) {
     console.log(message);
 
     if ((message as MessageType.GroupMessage)?.isAt?.()) {
-      message.reply("不理你- -");
+      const list = ["不理你- -", "你是不是暗恋我"];
+      message.reply(list[Math.floor(Math.random() * list.length)]);
       return;
     }
 

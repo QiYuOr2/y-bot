@@ -36,7 +36,7 @@ list:
         - 冲
       is_contains: false
     return:
-      text: 冲冲冲，天天就知道冲，就不能想点别的吗？
+      image: chong.jpg
 
   - receive:
       text: 好涩哦
@@ -57,3 +57,23 @@ list:
       is_contains: true
     return:
       image: zao.jpg
+
+  - receive:
+      text:
+        - 早
+      is_contains: false
+    return:
+      image: zao.jpg
+
+  - receive:
+      text: 呜呜呜
+      is_contains: true
+    return: 
+      text: 摸摸不哭
+
+  - receive:
+      text: 乐
+      is_contains: false
+    return: 
+      image: le.jpg
+
