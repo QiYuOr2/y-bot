@@ -1,4 +1,4 @@
-import Mirai, { MessageType, toMessageChain } from "mirai-ts";
+import Mirai, { MessageType } from "mirai-ts";
 import * as Commands from "../commands";
 import { autoReply } from "./auto-reply";
 import { CommandCenter } from "./command-center";
@@ -45,7 +45,7 @@ async function commandHandler(message: MessageType.GroupMessage | MessageType.Fr
     message.reply(result);
   } catch (error) {
     console.log(error);
-    message.reply(toMessageChain("坏掉了喵QAQ"));
+    // message.reply(toMessageChain("坏掉了喵QAQ"));
   }
 }
 

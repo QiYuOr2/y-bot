@@ -34,6 +34,7 @@ list:
       text:
         - 开冲
         - 冲
+        - 冲！
       is_contains: false
     return:
       image: chong.jpg
@@ -45,10 +46,12 @@ list:
       image: lianhon.jpg
 
   - receive:
-      text: 开摆
-      is_contains: false
+      text: 
+        - 开摆
+        - 摆了
+      is_contains: true
     return:
-      image: kaibai.jpg # 图片名，会映射到/assets/images/{图片名}
+      image: linghuofendou.jpg # 图片名，会映射到/assets/images/{图片名}
 
   - receive:
       text:
