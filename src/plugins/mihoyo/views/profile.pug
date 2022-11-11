@@ -1,7 +1,7 @@
 mixin character(ctx)
-    - const { name, icon, level, fetter } = ctx
+    - const { name, image, level, fetter } = ctx
     div(class="character")
-        img.character__avatar(src=icon)
+        img.character__avatar(src=image)
         .character__desc
             .name #{name}
             .level Lv.#{level}
@@ -38,5 +38,5 @@ html
             .profile__section
                 .title 角色列表
                 .content.content--list
-                    each item in avatars
+                    each item in avatars.slice(0, 8)
                         +character(item)

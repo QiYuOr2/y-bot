@@ -32,7 +32,7 @@ export class MihoyoPlugin extends Plugin {
 
         const userInfo = await mihoyo.getUserInfo(id);
 
-        const avatars = await mihoyo.getAllCharacters(id);
+        console.log(userInfo);
 
         const stats = (Object.keys(userInfo.stats) as (keyof typeof userInfo.stats)[]).map((k) => {
           return {
@@ -50,13 +50,13 @@ export class MihoyoPlugin extends Plugin {
             + userInfo.stats.common_chest_number
         });
 
-        const imgTime = await render(template('profile', { ...userInfo, avatars ,stats, uid }));
+        const imgTime = await render(template('profile', { ...userInfo, stats, uid }));
         
         return [localImage(`${imgTime}.png`, 'mihoyo')];
       } catch (error: any) {
         console.log(error);
-        if (error.code === 10102) {
-          return [Message.Plain(error.message)];
+        if (error.message) {
+          return [Message.Plain(error.message || '米游社无情的拒绝了访问，并且没有说为什么')];
         }
       }
 

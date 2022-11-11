@@ -14,7 +14,7 @@ export async function render(html: string) {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
     timeout: 50000,
-    defaultViewport: { width: 500, height: 600 }
+    defaultViewport: { width: 280, height: 500 }
   });
 
   html = html.replace(/<link rel="stylesheet" href="styles\/(.*?)\.css">/g, (...args) => {
