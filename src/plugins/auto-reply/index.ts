@@ -1,6 +1,6 @@
-import { Message } from "mirai-ts";
-import Plugin from "../../core/plugin";
-import { readReplyConfig, localImage } from "../../utils";
+import { Message } from 'mirai-ts';
+import Plugin from '../../core/plugin';
+import { readReplyConfig, localImage } from '../../utils';
 
 export class AutoReplyPlugin extends Plugin {
   constructor() {
@@ -9,11 +9,12 @@ export class AutoReplyPlugin extends Plugin {
     const { list } = readReplyConfig();
     list.forEach((item) => {
       const isContains = item.receive.is_contains;
-      Array.isArray(item.receive.text)
-        ? item.receive.text.forEach((keyword) => {
-            this.set(isContains ? new RegExp(keyword) : keyword).action(() => this.reply(item.return));
-          })
-        : this.set(isContains ? new RegExp(item.receive.text) : item.receive.text).action(() => this.reply(item.return));
+      const text = item.receive.text;
+      Array.isArray(text)
+        ? text.forEach((keyword) => {
+          this.set(isContains ? new RegExp(keyword) : keyword).action(() => this.reply(item.return));
+        })
+        : this.set(isContains ? new RegExp(text) : text).action(() => this.reply(item.return));
     });
   }
 

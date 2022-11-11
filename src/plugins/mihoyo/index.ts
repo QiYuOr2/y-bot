@@ -1,12 +1,13 @@
-import { GenshinKit } from '@genshin-kit/core'
 import { readFileSync } from 'fs';
-import { Message } from 'mirai-ts';
 import { join } from 'path';
+import { GenshinKit } from '@genshin-kit/core';
+import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
+import { render, template } from './utils/template';
 
-const mihoyo = new GenshinKit()
+const mihoyo = new GenshinKit();
 
-mihoyo.loginWithCookie(readFileSync(join(__dirname, '../../../config/cookie'), 'utf-8'))
+mihoyo.loginWithCookie(readFileSync(join(__dirname, '../../../config/cookie'), 'utf-8'));
 
 export class MihoyoPlugin extends Plugin {
   constructor() {
@@ -14,14 +15,18 @@ export class MihoyoPlugin extends Plugin {
 
     this.set('.mihoyo').action(async (uid: string) => {
       try {
-        const result = await mihoyo.getAllCharacters(Number(101473326))
-        console.log(result)
+        const id = Number(uid);
+        const userInfo = await mihoyo.getUserInfo(id);
+
+        await render(template('profile', { ...userInfo, uid }));
+        
+        console.log(userInfo);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
 
-      return undefined
-    })
+      return undefined;
+    });
   }
 
 }

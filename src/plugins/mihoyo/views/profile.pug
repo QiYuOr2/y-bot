@@ -1,0 +1,33 @@
+mixin character(ctx)
+    - const { name, image, level, fetter } = ctx
+    div(class="character")
+        img.character__avatar(src=image)
+        .character__desc
+            .name #{name}
+            .level #{level}
+            .fetter #{fetter}
+
+mixin userInfo(ctx)
+    - const { role, stats } = ctx
+    div(class="userInfo")
+
+
+doctype html
+html
+    head
+        link(rel="stylesheet", href="styles/common.css")
+        link(rel="stylesheet", href="styles/profile.css")
+    body
+        .profile
+            .profile__title 玩家 #{uid}
+
+            .profile__settion
+                .title 基本数据
+                .content
+                    +userInfo({ role, stats })
+            
+            .profile__settion
+                .title 角色列表
+                .content
+                    each item in avatars
+                        +character(item)

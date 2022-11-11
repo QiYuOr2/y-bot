@@ -1,4 +1,5 @@
 module.exports = {
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2022,
     ecmaFeatures: {
@@ -28,9 +29,9 @@ module.exports = {
     'import/no-mutable-exports': 'error',
     'import/no-unresolved': 'off',
     'import/no-absolute-path': 'off',
-    'semi': ['error', 'never'],
-    'curly': ['error', 'multi-or-nest', 'consistent'],
-    'quotes': ['error', 'single'],
+    'semi': ['error', 'always'],
+    'curly': ['error', 'all'],
+    // 'quotes': ['error', 'single'],
     'quote-props': ['error', 'consistent-as-needed'],
     'no-unused-vars': 'warn',
     'no-param-reassign': 'off',
@@ -72,4 +73,4 @@ module.exports = {
     'no-octal': 'error',
     'no-octal-escape': 'error',
   },
-}
+};

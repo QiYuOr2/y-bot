@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "start": "tsc && node dist/main.js",
-    "build": "tsc",
+    "start": "npm run build && node dist/main.js",
+    "build": "tsc && node scripts/copy.js",
     "deploy": "pm2 start dist/main.js --name=bot",
     "re": "npm run build && pm2 restart bot",
-    "test": "tsc && node dist/main.test.js"
+    "test": "npm run build && node dist/main.test.js"
   },
   "keywords": [],
   "author": "",
@@ -20,18 +20,23 @@
     "cheerio": "^1.0.0-rc.10",
     "eslint-plugin-n": "^15.5.1",
     "eslint-plugin-promise": "^6.1.1",
+    "fs-extra": "^10.1.0",
+    "glob": "^8.0.3",
     "i": "^0.3.7",
     "js-yaml": "^4.1.0",
     "kuroshiro": "^1.2.0",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "mirai-ts": "^2.2.1",
     "npm": "^9.1.1",
+    "pug": "^3.0.2",
     "puppeteer": "^13.5.2",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^17.0.23",
+    "@types/pug": "^2.0.6",
+    "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.27.0",
     "eslint-plugin-import": "^2.26.0",
     "esno": "^0.16.3"

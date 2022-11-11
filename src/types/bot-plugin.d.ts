@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { toMessageChain } from 'mirai-ts';
 import { BotMessage } from './message';
 

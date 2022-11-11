@@ -2,6 +2,7 @@ import { IBotPlugin } from '../types/bot-plugin';
 import { BotMessage, MessageChain } from '../types/message';
 import { isString, isUndefined } from '../utils';
 
+// eslint-disable-next-line no-unused-vars
 type Handler = (...args: any[]) => MessageChain | undefined | Promise<MessageChain | undefined>;
 
 export default class Plugin implements IBotPlugin {

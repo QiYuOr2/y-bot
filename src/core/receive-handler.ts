@@ -1,5 +1,5 @@
 import { BotMessage, ReceiveMessage } from '../types/message';
-import { isRegExpString, isString } from '../utils';
+import { isRegExpString } from '../utils';
 
 export default function receiveHandler(message: ReceiveMessage, keywords: string[]): BotMessage {
   const text = message.plain.split(' ');
@@ -18,7 +18,7 @@ export default function receiveHandler(message: ReceiveMessage, keywords: string
           matchKeywords = matchResult;
           args = text.slice(i + 1);
           keyword = item;
-          keywordsRegExp = k
+          keywordsRegExp = k;
 
           matchRegKeywordsResult = true;
         }

@@ -1,8 +1,8 @@
 import { BotMessage, MessageChain, ReceiveMessage } from '../types/message';
 import { IBotPlugin } from '../types/bot-plugin';
 import * as PluginModules from '../plugins';
-import receiveHandler from './receive-handler';
 import { isRegExpString, isUndefined } from '../utils';
+import receiveHandler from './receive-handler';
 
 export default class Entry {
   static instance: Entry;

@@ -6,6 +6,7 @@ import Entry from './entry';
 type SetupOptions = {
   qq: number;
   settings: MiraiApiHttpSetting;
+  // eslint-disable-next-line no-unused-vars
   handler?: (msg: any) => void;
 };
 

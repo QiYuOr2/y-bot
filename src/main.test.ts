@@ -1,9 +1,9 @@
-import Entry from './core/entry';
+import Entry from './core/entry'
 
 Entry.create()
   .receive({
     type: 'FriendMessage',
-    plain: '.mihoyo',
+    plain: '.mihoyo 101473326',
     isAtMe: false,
     messageChain: [],
     sender: {
@@ -12,7 +12,7 @@ Entry.create()
       remark: 'string',
     },
   })
-  .toReplyMessage();
+  .toReplyMessage()
 
 // Entry.create()
 //   .receive({
