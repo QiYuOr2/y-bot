@@ -1,6 +1,5 @@
 import { BotMessage, MessageChain, ReceiveMessage } from '../types/message';
 import { IBotPlugin } from '../types/bot-plugin';
-
 import * as PluginModules from '../plugins';
 import receiveHandler from './receive-handler';
 import { isRegExpString, isUndefined } from '../utils';
@@ -31,13 +30,13 @@ export default class Entry {
     this.#triggerKeywords = this.plugins.map((ins) => ins.getKeywords()).flat();
   }
 
-  toReplyMessage() {
+  async toReplyMessage() {
     if (!this.message.hasKeywords) {
       return;
     }
 
     let result;
-    this.plugins.forEach((plugin) => {
+    for (const plugin of this.plugins) {
       const eq = (value: string) => {
         if (isRegExpString(value)) {
           const reg = new RegExp(value.slice(1, value.length - 1));
@@ -47,9 +46,9 @@ export default class Entry {
       };
 
       if (plugin.getKeywords().some(eq)) {
-        result = plugin.main(this.message);
+        result = await plugin.main(this.message);
       }
-    });
+    }
 
     if (isUndefined(result)) {
       return;

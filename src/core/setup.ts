@@ -18,7 +18,7 @@ export default async function setup(options: SetupOptions) {
 
     const isAtMe = (message as MessageType.GroupMessage)?.isAt?.() ?? false;
 
-    const result = Entry.create()
+    const result = await Entry.create()
       .receive({ ...(message as Omit<ReceiveMessage, 'isAtMe'>), isAtMe })
       .toReplyMessage();
 

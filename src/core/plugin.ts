@@ -2,7 +2,7 @@ import { IBotPlugin } from '../types/bot-plugin';
 import { BotMessage, MessageChain } from '../types/message';
 import { isString, isUndefined } from '../utils';
 
-type Handler = (...args: any[]) => MessageChain | undefined;
+type Handler = (...args: any[]) => MessageChain | undefined | Promise<MessageChain | undefined>;
 
 export default class Plugin implements IBotPlugin {
   message!: Required<BotMessage>;
