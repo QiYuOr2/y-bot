@@ -3,7 +3,7 @@ import { IBotPlugin } from '../types/bot-plugin';
 
 import * as PluginModules from '../plugins';
 import receiveHandler from './receive-handler';
-import { isRegExpString, isString, isUndefined } from '../utils';
+import { isRegExpString, isUndefined } from '../utils';
 
 export default class Entry {
   static instance: Entry;

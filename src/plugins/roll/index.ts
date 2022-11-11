@@ -23,9 +23,27 @@ export class RollPlugin extends Plugin {
 
   fate(income: string) {
     const count = Number(income) || 1;
+    const countMap = new Map();
 
     const list = fateList.map((item) => new Array(item[1]).fill(item[0])).flat() as string[];
-    const get = new Array(count).fill(0).map(() => Message.Plain(list[Math.floor(Math.random() * list.length)] + ' '));
+    const get = new Array(count).fill(0).map(() => {
+      const current = list[Math.floor(Math.random() * list.length)]
+      
+      if (countMap.has(current)) {
+        countMap.set(current, countMap.get(current) + 1)
+      } else {
+        countMap.set(current, 1)
+      }
+
+      return Message.Plain(current + ' ')
+    });
+
+    if (count > 30) {
+      return [Message.Plain(Array.from(countMap).reduce((result, item) => {
+
+        return `${result}${result === '' ? '' : ', '}${item[0]}: ${item[1]}次`
+      }, ''))]
+    }
 
     return [
       ...get,
