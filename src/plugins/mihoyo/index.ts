@@ -32,6 +32,8 @@ export class MihoyoPlugin extends Plugin {
 
         const userInfo = await mihoyo.getUserInfo(id);
 
+        const avatars = await mihoyo.getAllCharacters(id);
+
         const stats = (Object.keys(userInfo.stats) as (keyof typeof userInfo.stats)[]).map((k) => {
           return {
             label: StatsKeyMap[k] || '',
@@ -48,7 +50,7 @@ export class MihoyoPlugin extends Plugin {
             + userInfo.stats.common_chest_number
         });
 
-        const imgTime = await render(template('profile', { ...userInfo, stats, uid }));
+        const imgTime = await render(template('profile', { ...userInfo, avatars ,stats, uid }));
         
         return [localImage(`${imgTime}.png`, 'mihoyo')];
       } catch (error: any) {

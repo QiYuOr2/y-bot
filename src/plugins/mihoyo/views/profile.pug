@@ -1,7 +1,7 @@
 mixin character(ctx)
-    - const { name, image, level, fetter } = ctx
+    - const { name, icon, level, fetter } = ctx
     div(class="character")
-        img.character__avatar(src=image)
+        img.character__avatar(src=icon)
         .character__desc
             .name #{name}
             .level Lv.#{level}
