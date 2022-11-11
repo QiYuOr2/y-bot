@@ -51,8 +51,11 @@ export class MihoyoPlugin extends Plugin {
         const imgTime = await render(template('profile', { ...userInfo, stats, uid }));
         
         return [localImage(`${imgTime}.png`, 'mihoyo')];
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
+        if (error.code === 10102) {
+          return [Message.Plain(error.message)];
+        }
       }
 
       return undefined;
