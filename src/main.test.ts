@@ -1,4 +1,4 @@
-import Entry from './core/entry'
+import Entry from './core/entry';
 
 Entry.create()
   .receive({
@@ -12,7 +12,7 @@ Entry.create()
       remark: 'string',
     },
   })
-  .toReplyMessage()
+  .toReplyMessage();
 
 // Entry.create()
 //   .receive({

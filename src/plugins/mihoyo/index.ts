@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { GenshinKit } from '@genshin-kit/core';
+import { GenshinKit, util } from '@genshin-kit/core';
 import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 import { localImage } from '../../utils';
@@ -25,6 +25,11 @@ export class MihoyoPlugin extends Plugin {
     this.set('.mihoyo').action(async (uid: string) => {
       try {
         const id = Number(uid);
+
+        if (!util.isValidUid(id)) {
+          return [Message.Plain('uid错误')];
+        }
+
         const userInfo = await mihoyo.getUserInfo(id);
 
         const stats = (Object.keys(userInfo.stats) as (keyof typeof userInfo.stats)[]).map((k) => {
