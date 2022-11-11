@@ -16,24 +16,24 @@ export default class Plugin implements IBotPlugin {
     return this.exec(message.keywords, message.args);
   }
 
-  _triggerKeywords: string[] = [];
+  #triggerKeywords: string[] = [];
   getKeywords() {
-    return this._triggerKeywords;
+    return this.#triggerKeywords;
   }
 
-  _handlerMap: Map<string, Handler> = new Map();
+  #handlerMap: Map<string, Handler> = new Map();
 
-  _lazyMethods: Function[] = [];
+  #lazyMethods: Function[] = [];
 
   /**
    * 惰性设置触发词
    * @param keywords
    * @returns
    */
-  _set(keywords: string | RegExp | (string | RegExp)[]) {
+  #set(keywords: string | RegExp | (string | RegExp)[]) {
     return () => {
       const _keywords = (Array.isArray(keywords) ? keywords : [keywords]).map((k) => (isString(k) ? k : `/${k.source}/`));
-      this._triggerKeywords.push(..._keywords);
+      this.#triggerKeywords.push(..._keywords);
       return _keywords;
     };
   }
@@ -44,7 +44,7 @@ export default class Plugin implements IBotPlugin {
    * @returns
    */
   set(keywords: string | RegExp | (string | RegExp)[]) {
-    this._lazyMethods.push(this._set(keywords));
+    this.#lazyMethods.push(this.#set(keywords));
     return this;
   }
 
@@ -54,7 +54,7 @@ export default class Plugin implements IBotPlugin {
    * @returns
    */
   action(handler: Handler) {
-    const _set = this._lazyMethods.pop();
+    const _set = this.#lazyMethods.pop();
 
     if (isUndefined(_set)) {
       console.error(new Error('未设置触发词').message);
@@ -64,12 +64,12 @@ export default class Plugin implements IBotPlugin {
     const keywords: string[] = _set();
 
     keywords.forEach((keyword) => {
-      this._handlerMap.set(keyword, handler);
+      this.#handlerMap.set(keyword, handler);
     });
   }
 
   exec(keyword: string | RegExp, args: any[] = []) {
-    const handler = this._handlerMap.get(keyword.toString());
+    const handler = this.#handlerMap.get(keyword.toString());
 
     if (isUndefined(handler)) {
       console.error(new Error('未找到触发函数').message);
