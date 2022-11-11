@@ -3,7 +3,7 @@ import Entry from './core/entry';
 Entry.create()
   .receive({
     type: 'FriendMessage',
-    plain: '.mihoyo 101473326',
+    plain: '.mi 角色',
     isAtMe: false,
     messageChain: [],
     sender: {
