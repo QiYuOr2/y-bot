@@ -1,5 +1,32 @@
 .profile {}
 
-.profile .character__avatar {
+.profile .profile__title,
+.profile .profile__section {
+  margin-bottom: 16px;
+}
+
+.profile .profile__section .title {
+  margin-bottom: 10px;
+}
+
+.content--list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.character .character__avatar {
   width: 50px;
+}
+
+.user .user__basic {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.user .user__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }

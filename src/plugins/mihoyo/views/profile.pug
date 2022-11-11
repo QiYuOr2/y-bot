@@ -4,12 +4,21 @@ mixin character(ctx)
         img.character__avatar(src=image)
         .character__desc
             .name #{name}
-            .level #{level}
-            .fetter #{fetter}
+            .level Lv.#{level}
+            .fetter 好感#{fetter}
 
 mixin userInfo(ctx)
     - const { role, stats } = ctx
-    div(class="userInfo")
+    div(class="user")
+        .user__basic
+            .nickname 昵称 #{role.nickname}
+            .level Lv. #{role.level}
+        .user__stats
+            each item in stats
+                if item.label
+                    div
+                        span #{item.label}
+                        span #{item.value}
 
 
 doctype html
@@ -21,13 +30,13 @@ html
         .profile
             .profile__title 玩家 #{uid}
 
-            .profile__settion
+            .profile__section
                 .title 基本数据
                 .content
                     +userInfo({ role, stats })
             
-            .profile__settion
+            .profile__section
                 .title 角色列表
-                .content
+                .content.content--list
                     each item in avatars
                         +character(item)
