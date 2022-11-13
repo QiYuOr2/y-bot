@@ -2,8 +2,6 @@ import { AppWishResult, GenshinGachaKit } from 'genshin-gacha-kit';
 import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 
-const mihoyo = new GenshinGachaKit(undefined as any);
-
 const PoolTypeR = {
   新手: 100,
   常驻: 200,
@@ -21,6 +19,7 @@ export class MihoyoPlugin extends Plugin {
   async drawCard(pool: keyof typeof PoolTypeR) {
     const poolType = PoolTypeR[pool || '角色'] || 301;
 
+    const mihoyo = new GenshinGachaKit(undefined as any);
     await mihoyo.setOfficialGachaPool(poolType as any);
 
     mihoyo.multiWish(10);
