@@ -31,3 +31,48 @@ export const readCookMenuConfig = () => {
   const file = fs.readFileSync(path.join(__dirname, '../../config/cook-menu.yml'), 'utf-8');
   return y.load(file) as { list: string[] };
 };
+
+/**
+ * 解析角色文件
+ */
+export const readArknightsCharacters = () => {
+  const file = fs.readFileSync(path.join(__dirname, '../../config/arknights-menu.yml'), 'utf-8');
+
+  return file.split('\n').map(item => {
+    const character = item.split(',');
+    return {
+      id: character[0],
+      name: character[1],
+      rarity: character[2],
+      from: character[3],
+      time: character[4]
+    };
+  });
+};
+
+/**
+ * 读取卡池信息
+ */
+export const readArknightsGacha = () => {
+  const file = fs.readFileSync(path.join(__dirname, '../../config/arknights-gacha.yml'), 'utf-8');
+  const config = (y.load(file) as Record<string, GachaConfig>[])[0];
+  const limitConfig = config['limit'];
+  return {
+    limit: {
+      ...limitConfig,
+      up: {
+        ssr: {
+          main: limitConfig.up.ssr.main.split('/'),
+          sub: limitConfig.up.ssr.sub.split('/'),
+        },
+        sr: limitConfig.up.sr.split('/'),
+      },
+      all: {
+        ssr: limitConfig.all.ssr.split('/'),
+        sr: limitConfig.all.sr.split('/'),
+        r: limitConfig.all.r.split('/'),
+        n: limitConfig.all.n.split('/'),
+      }
+    } as GachaConfig<string[]>
+  };
+};

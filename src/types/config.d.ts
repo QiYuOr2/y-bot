@@ -11,3 +11,20 @@ declare interface ReplyConfig {
   };
   return: ReplyConfigReturnOptions;
 }
+
+declare interface GachaConfig<T = string> {
+  name: string
+  up: {
+    ssr: {
+      main: T,
+      sub: T,
+    },
+    sr: T
+  }
+  all: {
+    ssr: T
+    sr: T
+    r: T
+    n: T
+  }
+}
