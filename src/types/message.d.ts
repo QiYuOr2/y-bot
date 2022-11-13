@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import type { toMessageChain } from 'mirai-ts'
+import type { toMessageChain } from 'mirai-ts';
 
 declare interface Group {
   id: number;

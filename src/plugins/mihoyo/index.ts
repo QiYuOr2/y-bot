@@ -14,15 +14,20 @@ export class MihoyoPlugin extends Plugin {
     super();
 
     this.set(['.mi', '原神十连']).action(this.drawCard);
+    this.set('原神').action(this.drawCardWithCount.bind(this));
   }
 
-  async drawCard(pool: keyof typeof PoolTypeR) {
+  async drawCardWithCount(count: string, pool: keyof typeof PoolTypeR) {
+    return this.drawCard(pool, Number(count));
+  }
+
+  async drawCard(pool: keyof typeof PoolTypeR, count = 10) {
     const poolType = PoolTypeR[pool || '角色'] || 301;
 
     const mihoyo = new GenshinGachaKit(undefined as any);
     await mihoyo.setOfficialGachaPool(poolType as any);
 
-    mihoyo.multiWish(10);
+    mihoyo.multiWish(count);
 
     const wishResult = mihoyo.getResult() as AppWishResult;
 
