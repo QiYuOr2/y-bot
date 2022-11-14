@@ -1,3 +1,7 @@
+export function typeIs<T>(value: unknown): T {
+  return value as T;
+}
+
 export function isString(value: unknown): value is string {
   return typeof value === 'string';
 }
