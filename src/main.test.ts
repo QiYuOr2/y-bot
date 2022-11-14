@@ -4,7 +4,7 @@ import Entry from './core/entry';
   const result = await Entry.create()
     .receive({
       type: 'FriendMessage',
-      plain: '明日方舟 10 限定',
+      plain: '明日方舟 100 限定',
       isAtMe: false,
       messageChain: [],
       sender: {

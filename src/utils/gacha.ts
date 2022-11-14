@@ -25,6 +25,9 @@ export const Pool = (source: string[]) => {
   const length = source.length;
 
   return {
+    one: () => {
+      return source[Math.floor(Math.random() * length)];
+    },
     get: (count?: number) => {
       const countMap: Record<string, number> = {};
       if (isUndefined(count)) {
