@@ -1,3 +1,4 @@
+import { Message } from 'mirai-ts';
 import { IBotPlugin } from '../types/bot-plugin';
 import { BotMessage, MessageChain } from '../types/message';
 import { isString, isUndefined } from '../utils';
@@ -67,6 +68,13 @@ export default class Plugin implements IBotPlugin {
     keywords.forEach((keyword) => {
       this.#handlerMap.set(keyword, handler);
     });
+  }
+
+  atReceive() {
+    const id = this.message.senderQQ;
+    const fromFriend = this.message.type === 'FriendMessage';
+    
+    return fromFriend ? Message.Plain('') : Message.At(id);
   }
 
   exec(keyword: string | RegExp, args: any[] = []) {

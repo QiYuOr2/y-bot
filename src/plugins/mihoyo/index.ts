@@ -40,6 +40,9 @@ export class MihoyoPlugin extends Plugin {
       return currentLevelResult.length < 1 ? result : `${result}${level}${counts}`;
     }, '');
 
-    return [Message.Plain(messageResult)];
+    return [
+      this.atReceive(),
+      Message.Plain(messageResult)
+    ];
   }
 }

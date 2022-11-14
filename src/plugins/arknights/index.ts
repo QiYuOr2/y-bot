@@ -20,7 +20,7 @@ export class ArknightsPlugin extends Plugin {
     this.set('明日方舟').action(this.drawCardWithCount.bind(this));
   }
 
-  async drawCardWithCount(count: string, pool: keyof typeof PoolTypeR) {
+  drawCardWithCount(count: string, pool: keyof typeof PoolTypeR) {
     return this.drawCard(pool, Number(count));
   }
 
@@ -56,6 +56,7 @@ export class ArknightsPlugin extends Plugin {
     }, '');
 
     return [
+      this.atReceive(),
       Message.Plain(messageResult),
       Message.Plain('====\n暂无保底机制')
     ];
