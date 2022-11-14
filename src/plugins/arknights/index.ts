@@ -39,7 +39,7 @@ export class ArknightsPlugin extends Plugin {
     const ssr = Pool(this.#fillPoolWithLimitUp(currentGachaPool.all.ssr, currentGachaPool.up))
       .get(probability.get('ssr'));
 
-    const wishResult = { ssr, sr, r, n };
+    const wishResult = { ssr, sr, r };
 
     const messageResult = Object.keys(wishResult).reduce((result, k) => {
       const level = `${k}====\n`;
@@ -57,8 +57,9 @@ export class ArknightsPlugin extends Plugin {
 
     return [
       this.atReceive(),
+      Message.Plain('\n'),
       Message.Plain(messageResult),
-      Message.Plain('====\n暂无保底机制')
+      Message.Plain('====\n三星已省略\n暂无保底机制')
     ];
   }
 

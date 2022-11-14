@@ -42,6 +42,7 @@ export class MihoyoPlugin extends Plugin {
 
     return [
       this.atReceive(),
+      Message.Plain('\n'),
       Message.Plain(messageResult)
     ];
   }
