@@ -1,7 +1,7 @@
 import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 import { omit, readArknightsGacha } from '../../utils';
-import { ArknightsGacha } from './gacha';
+import { ArknightsGacha, ArknightsGachaResult } from './gacha';
 
 const PoolTypeR: Record<string, string> = {
   限定: 'limit',
@@ -27,11 +27,15 @@ export class ArknightsPlugin extends Plugin {
 
     const arknights = new ArknightsGacha(currentGachaPool);
 
-    const wishResult = count > 1 ? omit(arknights.multi(count), 'n') : arknights.multi(count);
+    let wishResult: Partial<ArknightsGachaResult>;
+
+    wishResult = count > 1 ? omit(arknights.multi(count), 'n') : arknights.multi(count);
+    const rCount = Object.keys(wishResult.r ?? {}).length > 10;
+    wishResult = rCount ? omit(wishResult, 'r') : wishResult;
 
     const messageResult = Object.keys(wishResult).reduce((result, k) => {
       const level = `${k}====\n`;
-      const currentLevelResult = wishResult[k as keyof typeof wishResult];
+      const currentLevelResult = wishResult[k as keyof typeof wishResult]!;
 
       if (Object.keys(currentLevelResult).length < 1) {
         return result;
@@ -47,7 +51,7 @@ export class ArknightsPlugin extends Plugin {
       this.atReceive(),
       Message.Plain('\n'),
       Message.Plain(messageResult),
-      Message.Plain('====\n三星已省略')
+      Message.Plain(`====\n三星${rCount ? '与四星': ''}已省略`)
     ];
   }
 

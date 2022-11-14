@@ -4,7 +4,7 @@ interface Counter {
   lastSSR: number
 }
 
-interface ArknightsGachaResult {
+export interface ArknightsGachaResult {
   ssr: Record<string, number>
   sr: Record<string, number>
   r: Record<string, number>
