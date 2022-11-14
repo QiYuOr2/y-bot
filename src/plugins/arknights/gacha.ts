@@ -11,12 +11,12 @@ interface ArknightsGachaResult {
   n: Record<string, number>
 }
 
-const initCounter = {
+const initCounter = JSON.parse(JSON.stringify({
   /**
    * 距离上次SSR
    */
   lastSSR: 0,
-};
+})); 
 
 const SSROption = {
   BaseChance: 0.02,
@@ -34,7 +34,7 @@ const ROption = {
 
 export class ArknightsGacha {
   #pool: GachaConfig<string[]>;
-  #counter!: Counter;
+  #counter: Counter = initCounter;
   #result: ArknightsGachaResult = {
     ssr: {},
     sr: {},
@@ -51,7 +51,7 @@ export class ArknightsGacha {
     this.#counter.lastSSR += 1;
   }
   #clearCounter() {
-    this.#counter = initCounter;
+    this.#counter.lastSSR = 0;
   }
 
   #isSSR() {
