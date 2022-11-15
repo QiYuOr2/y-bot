@@ -62,10 +62,10 @@ export const readArknightsGacha = () => {
       ...limitConfig,
       up: {
         ssr: {
-          main: limitConfig.up.ssr.main.split('/'),
-          sub: limitConfig.up.ssr.sub.split('/'),
+          main: limitConfig?.up?.ssr?.main?.split?.('/') ?? [],
+          sub: limitConfig?.up?.ssr?.sub?.split?.('/') ?? [],
         },
-        sr: limitConfig.up.sr.split('/'),
+        sr: limitConfig?.up?.sr?.split?.('/') ?? [],
       },
       all: {
         ssr: limitConfig.all.ssr.split('/'),

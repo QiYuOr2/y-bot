@@ -5,6 +5,7 @@ import { ArknightsGacha, ArknightsGachaResult } from './gacha';
 
 const PoolTypeR: Record<string, string> = {
   限定: 'limit',
+  常驻: 'normal'
 };
 
 export class ArknightsPlugin extends Plugin {
