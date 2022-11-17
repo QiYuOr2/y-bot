@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { toMessageChain } from 'mirai-ts';
 import { BotMessage } from './message';
 
-declare interface IBotPlugin {
+export interface IBotPlugin {
   getKeywords: () => string[];
   /**
    * Entry统一调用该方法处理Plugin

@@ -10,7 +10,7 @@ export function template(templateName: string, options: Record<string, any>) {
 
 export async function render(html: string) {
   const time = Date.now();
- 
+
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
     timeout: 50000,
@@ -32,8 +32,8 @@ export async function render(html: string) {
       path: path.join(__dirname, '../../../../assets/mihoyo/', `${time}.png`)
     });
 
-    return time; 
-  } finally{
+    return time;
+  } finally {
     await browser.close();
   }
 }

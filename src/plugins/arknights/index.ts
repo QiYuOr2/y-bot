@@ -4,8 +4,8 @@ import { omit, readArknightsGacha } from '../../utils';
 import { ArknightsGacha, ArknightsGachaResult } from './gacha';
 
 const PoolTypeR: Record<string, string> = {
-  限定: 'limit',
-  常驻: 'normal'
+  限定: 'limit'
+  // 常驻: 'normal'
 };
 
 export class ArknightsPlugin extends Plugin {
@@ -20,7 +20,6 @@ export class ArknightsPlugin extends Plugin {
   }
 
   drawCard(pool: string, count = 10) {
-
     const _pool = PoolTypeR[Object.keys(PoolTypeR).includes(pool) ? pool : '限定'];
     const gacha = readArknightsGacha();
 
@@ -44,7 +43,7 @@ export class ArknightsPlugin extends Plugin {
 
       const counts = Object.keys(currentLevelResult)
         .reduce((countResult, item) => `${countResult}${item}: ${currentLevelResult[item]}个\n`, '');
-   
+
       return currentLevelResult.length < 1 ? result : `${result}${level}${counts}`;
     }, '');
 
@@ -52,8 +51,7 @@ export class ArknightsPlugin extends Plugin {
       this.atReceive(),
       Message.Plain('\n'),
       Message.Plain(messageResult),
-      Message.Plain(`====\n三星${rCount ? '与四星': ''}已省略`)
+      Message.Plain(`====\n三星${rCount ? '与四星' : ''}已省略`)
     ];
   }
-
 }

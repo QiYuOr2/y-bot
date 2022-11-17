@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import y from 'js-yaml';
 import { Message } from 'mirai-ts';
+import { GachaConfig } from '../types/config';
 
 export const readToBase64 = (pathname: string) => {
   const image = fs.readFileSync(pathname, 'base64');
@@ -56,22 +57,42 @@ export const readArknightsCharacters = () => {
 export const readArknightsGacha = () => {
   const file = fs.readFileSync(path.join(__dirname, '../../config/arknights-gacha.yml'), 'utf-8');
   const config = (y.load(file) as Record<string, GachaConfig>[])[0];
-  const limitConfig = config['limit'];
+  const limitConfig = config.limit;
+  const normalConfig = config.normal;
+
   return {
+    normal: {
+      ...normalConfig,
+      up: {
+        ssr: {
+          main: limitConfig?.up?.ssr?.main?.split?.('/') ?? [],
+          sub: limitConfig?.up?.ssr?.sub?.split?.('/') ?? [],
+          normal: limitConfig?.up?.ssr?.normal?.split?.('/') ?? []
+        },
+        sr: limitConfig?.up?.sr?.split?.('/') ?? []
+      },
+      all: {
+        ssr: limitConfig.all.ssr.split('/'),
+        sr: limitConfig.all.sr.split('/'),
+        r: limitConfig.all.r.split('/'),
+        n: limitConfig.all.n.split('/')
+      }
+    } as GachaConfig<string[]>,
     limit: {
       ...limitConfig,
       up: {
         ssr: {
           main: limitConfig?.up?.ssr?.main?.split?.('/') ?? [],
           sub: limitConfig?.up?.ssr?.sub?.split?.('/') ?? [],
+          normal: limitConfig?.up?.ssr?.normal?.split?.('/') ?? []
         },
-        sr: limitConfig?.up?.sr?.split?.('/') ?? [],
+        sr: limitConfig?.up?.sr?.split?.('/') ?? []
       },
       all: {
         ssr: limitConfig.all.ssr.split('/'),
         sr: limitConfig.all.sr.split('/'),
         r: limitConfig.all.r.split('/'),
-        n: limitConfig.all.n.split('/'),
+        n: limitConfig.all.n.split('/')
       }
     } as GachaConfig<string[]>
   };

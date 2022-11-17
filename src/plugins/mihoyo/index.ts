@@ -6,7 +6,7 @@ const PoolTypeR = {
   新手: 100,
   常驻: 200,
   角色: 301,
-  武器: 302,
+  武器: 302
 };
 
 export class MihoyoPlugin extends Plugin {
@@ -36,7 +36,7 @@ export class MihoyoPlugin extends Plugin {
       const currentLevelResult = wishResult[k as keyof AppWishResult];
       const counts = currentLevelResult
         .reduce((countResult, item) => `${countResult}${item.name}: ${item.count}个\n`, '');
-   
+
       return currentLevelResult.length < 1 ? result : `${result}${level}${counts}`;
     }, '');
 

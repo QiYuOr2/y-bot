@@ -1,6 +1,6 @@
 import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
-import { BotMessage, MessageChain } from '../../types/message';
+import { MessageChain } from '../../types/message';
 import { isUndefined } from '../../utils';
 
 const fateList = [
@@ -9,7 +9,7 @@ const fateList = [
   ['末吉', 25],
   ['小吉', 25],
   ['吉', 25],
-  ['中吉', 10],
+  ['中吉', 10]
 ];
 export class RollPlugin extends Plugin {
   constructor() {
@@ -28,7 +28,7 @@ export class RollPlugin extends Plugin {
     const list = fateList.map((item) => new Array(item[1]).fill(item[0])).flat() as string[];
     const get = new Array(count).fill(0).map(() => {
       const current = list[Math.floor(Math.random() * list.length)];
-      
+
       if (countMap.has(current)) {
         countMap.set(current, countMap.get(current) + 1);
       } else {
@@ -40,13 +40,12 @@ export class RollPlugin extends Plugin {
 
     if (count > 30) {
       return [Message.Plain(Array.from(countMap).reduce((result, item) => {
-
         return `${result}${result === '' ? '' : ', '}${item[0]}: ${item[1]}次`;
       }, ''))];
     }
 
     return [
-      ...get,
+      ...get
       // Message.Plain('（大吉概率限时up中！）'),
     ];
   }

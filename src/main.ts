@@ -10,5 +10,5 @@ const settings = yaml.load(
 
 setup({
   qq: 2799397589,
-  settings,
+  settings
 });

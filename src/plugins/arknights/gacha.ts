@@ -1,4 +1,5 @@
-import { fillArray, Pool } from "../../utils";
+import { GachaConfig, GachaUp } from '../../types/config';
+import { fillArray, Pool } from '../../utils';
 
 interface Counter {
   lastSSR: number
@@ -15,8 +16,8 @@ const initCounter = JSON.parse(JSON.stringify({
   /**
    * 距离上次SSR
    */
-  lastSSR: 0,
-})); 
+  lastSSR: 0
+}));
 
 const SSROption = {
   BaseChance: 0.02,
@@ -50,6 +51,7 @@ export class ArknightsGacha {
   #increaseCounter() {
     this.#counter.lastSSR += 1;
   }
+
   #clearCounter() {
     this.#counter.lastSSR = 0;
   }
@@ -80,6 +82,16 @@ export class ArknightsGacha {
   }
 
   #fillPoolWithLimitUp(source: string[], up: GachaUp<string[]>) {
+    if (up?.ssr?.normal?.length > 0) {
+      const normalProbability = 0.5;
+      const normalUpCount = Math.round((normalProbability * source.length) / (1 - normalProbability));
+
+      const normalList = up.ssr.normal.map(
+        item => fillArray(Math.floor(normalUpCount / up.ssr.normal.length), item)
+      );
+      return [...source, ...normalList].flat();
+    }
+
     const mainProbability = 0.7;
     const mainUpCount = Math.round((mainProbability * source.length) / (1 - mainProbability));
 
@@ -89,7 +101,7 @@ export class ArknightsGacha {
     const subList = up.ssr.sub.map(
       item => fillArray(5, item)
     );
-    
+
     return [...source, ...mainList, ...subList].flat();
   }
 
@@ -106,7 +118,7 @@ export class ArknightsGacha {
       }
 
       return this.#result;
-    } 
+    }
     this.#increaseCounter();
     if (this.#isSR()) {
       const sr = Pool(this.#fillPoolWithNormalUp(this.#pool.all.sr, this.#pool.up.sr))
@@ -132,7 +144,7 @@ export class ArknightsGacha {
 
       return this.#result;
     }
-    
+
     const n = Pool(this.#pool.all.n)
       .one();
 

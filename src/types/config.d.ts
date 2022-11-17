@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
-declare interface ReplyConfigReturnOptions {
+export interface ReplyConfigReturnOptions {
   text?: string;
   image?: string;
 }
 
-declare interface ReplyConfig {
+export interface ReplyConfig {
   receive: {
     text: string | string[];
     is_contains: boolean;
@@ -12,15 +11,16 @@ declare interface ReplyConfig {
   return: ReplyConfigReturnOptions;
 }
 
-declare interface GachaUp<T> {
+export interface GachaUp<T> {
   ssr: {
     main: T,
+    normal: T,
     sub: T,
   },
   sr: T
 }
 
-declare interface GachaConfig<T = string> {
+export interface GachaConfig<T = string> {
   name: string
   up: GachaUp<T>
   all: {

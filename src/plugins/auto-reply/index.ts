@@ -1,5 +1,6 @@
 import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
+import { ReplyConfigReturnOptions } from '../../types/config';
 import { readReplyConfig, localImage } from '../../utils';
 
 export class AutoReplyPlugin extends Plugin {

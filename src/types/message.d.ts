@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
 import type { toMessageChain } from 'mirai-ts';
 
-declare interface Group {
+export interface Group {
   id: number;
   name: string;
   permission: 'MEMBER';
 }
 
-declare interface Member {
+export interface Member {
   id: number;
   memberName: string;
   specialTitle: string;
@@ -18,7 +17,7 @@ declare interface Member {
   group: Group;
 }
 
-declare interface Friend {
+export interface Friend {
   id: number;
   nickname: string;
   remark: string;
@@ -29,7 +28,7 @@ type MessageChain = ReturnType<typeof toMessageChain>;
 /**
  * 接收到的消息
  */
-declare interface ReceiveMessage {
+export interface ReceiveMessage {
   type: 'FriendMessage' | 'GroupMessage';
 
   /**
@@ -55,7 +54,7 @@ declare interface ReceiveMessage {
 /**
  * 处理后的消息
  */
-declare interface BotMessage {
+export interface BotMessage {
   type: 'FriendMessage' | 'GroupMessage';
   /**
    * 发送者QQ
