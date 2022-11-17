@@ -14,12 +14,15 @@ export default async function setup(options: SetupOptions) {
   const mirai = new Mirai(options.settings);
   await mirai.link(options.qq);
 
+  const { data: memberList } = await mirai.api.memberList(708376391);
+
   mirai.on('message', async (message) => {
     console.log(message);
 
     const isAtMe = (message as MessageType.GroupMessage)?.isAt?.() ?? false;
 
     const result = await Entry.create()
+      .use((ctx) => { ctx.memberList = memberList; })
       .receive({ ...(message as Omit<ReceiveMessage, 'isAtMe'>), isAtMe })
       .toReplyMessage();
 

@@ -17,8 +17,16 @@ export default class Entry {
   #triggerKeywords: string[] = [];
   plugins: IBotPlugin[] = [];
   message!: BotMessage;
+
+  context: Record<string, any> = {};
+
   constructor() {
     this.loadPlugins();
+  }
+
+  use(middleware: (context: Record<string, any>) => void) {
+    middleware(this.context);
+    return this;
   }
 
   receive(message: ReceiveMessage) {
@@ -47,7 +55,7 @@ export default class Entry {
       };
 
       if (plugin.getKeywords().some(eq)) {
-        result = await plugin.main(this.message);
+        result = await plugin.main(this.message, this.context);
       }
     }
 

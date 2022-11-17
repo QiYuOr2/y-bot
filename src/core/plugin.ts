@@ -8,8 +8,10 @@ type Handler = (...args: any[]) => MessageChain | undefined | Promise<MessageCha
 
 export default class Plugin implements IBotPlugin {
   message!: Required<BotMessage>;
-  main(message: Required<BotMessage>) {
+  context!: Record<string, any>;
+  main(message: Required<BotMessage>, context: Record<string, any>) {
     this.message = message;
+    this.context = context;
 
     if (message.keywordsRegExp) {
       return this.exec(message.keywordsRegExp, [...message.args, message.matchKeywords]);
@@ -73,7 +75,7 @@ export default class Plugin implements IBotPlugin {
   atReceive() {
     const id = this.message.senderQQ;
     const fromFriend = this.message.type === 'FriendMessage';
-    
+
     return fromFriend ? Message.Plain('') : Message.At(id);
   }
 

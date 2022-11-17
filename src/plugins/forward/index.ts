@@ -11,10 +11,10 @@ export class ForwardPlugin extends Plugin {
         title: '朋友的聊天记录',
         brief: '聊天记录',
         summary: '查看 1 条转发消息',
-        source: this.message.source.id.toString(),
+        source: '',
         nodeList: [
           {
-            senderId: 1176281967,
+            senderId: this.context.memberList[Math.floor(Math.random() * this.context.memberList.length)].id,
             time: parseInt(String(new Date().getTime() / 1000)),
             senderName: '朋友',
             messageChain: [

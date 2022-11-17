@@ -4,17 +4,17 @@ import Entry from './core/entry';
   const result = await Entry.create()
     .receive({
       type: 'FriendMessage',
-      plain: '明日方舟 100 常驻',
+      plain: '朋友说 100',
       isAtMe: false,
       messageChain: [],
       sender: {
         id: 123,
         nickname: 'string',
-        remark: 'string',
-      },
+        remark: 'string'
+      }
     })
     .toReplyMessage();
-      
+
   console.log(result);
 })();
 
