@@ -16,7 +16,7 @@ export class ForwardPlugin extends Plugin {
       title: '朋友的聊天记录',
       brief: '聊天记录',
       summary: '查看 1 条转发消息',
-      source: '',
+      source: this.message.source.id.toString(),
       nodeList: [
         {
           senderId: 1045395422,

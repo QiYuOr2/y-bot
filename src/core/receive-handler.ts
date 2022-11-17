@@ -1,3 +1,4 @@
+import { MessageType } from 'mirai-ts';
 import { BotMessage, ReceiveMessage } from '../types/message';
 import { isRegExpString } from '../utils';
 
@@ -47,5 +48,6 @@ export default function receiveHandler(message: ReceiveMessage, keywords: string
     matchKeywords,
     keywordsRegExp,
     args,
+    source: message.messageChain.at(0) as MessageType.Source
   };
 }

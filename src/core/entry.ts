@@ -5,6 +5,7 @@ import { isRegExpString, isUndefined } from '../utils';
 import receiveHandler from './receive-handler';
 
 export default class Entry {
+  // eslint-disable-next-line no-use-before-define
   static instance: Entry;
   static create() {
     if (!this.instance) {

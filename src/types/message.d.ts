@@ -1,4 +1,4 @@
-import type { toMessageChain } from 'mirai-ts';
+import type { MessageType, toMessageChain } from 'mirai-ts';
 
 export interface Group {
   id: number;
@@ -90,4 +90,9 @@ export interface BotMessage {
    * 部分关键词需要解析的参数
    */
   args?: string[];
+
+  /**
+   * 消息源
+   */
+  source: MessageType.Source
 }
