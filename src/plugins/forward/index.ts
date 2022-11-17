@@ -5,7 +5,7 @@ export class ForwardPlugin extends Plugin {
   constructor() {
     super();
 
-    this.set(['朋友说']).action((message: string) => {
+    this.set(['/朋友说/']).action((message: string) => {
       return toMessageChain({
         type: 'Forward',
         title: '朋友的聊天记录',
