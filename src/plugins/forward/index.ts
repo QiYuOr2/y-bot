@@ -18,7 +18,7 @@ export class ForwardPlugin extends Plugin {
             time: parseInt(String(new Date().getTime() / 1000)),
             senderName: '朋友',
             messageChain: [
-              Message.Plain(message)
+              Message.Plain(message.replace(/他|她|它/g, '我'))
             ]
           }
         ]
