@@ -48,6 +48,7 @@ export default function receiveHandler(message: ReceiveMessage, keywords: string
     matchKeywords,
     keywordsRegExp,
     args,
-    source: message.messageChain.at(0) as MessageType.Source
+    source: message.messageChain.at(0) as MessageType.Source,
+    plain: message.plain
   };
 }

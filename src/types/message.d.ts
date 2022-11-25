@@ -95,4 +95,9 @@ export interface BotMessage {
    * 消息源
    */
   source: MessageType.Source
+
+  /**
+   * 消息的文字内容
+   */
+  plain: string
 }

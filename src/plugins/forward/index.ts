@@ -5,7 +5,11 @@ export class ForwardPlugin extends Plugin {
   constructor() {
     super();
 
-    this.set(['/朋友说/']).action((message: string) => {
+    this.set([/朋友说/, /群友说/]).action((message: string) => {
+      const splitMessage = this.message.plain.split(/朋友说|群友说/)?.[1] ?? '';
+
+      const isGroupMember = this.message.plain.includes('群友');
+
       return toMessageChain({
         type: 'Forward',
         title: '朋友的聊天记录',
@@ -16,9 +20,9 @@ export class ForwardPlugin extends Plugin {
           {
             senderId: this.context.memberList[Math.floor(Math.random() * this.context.memberList.length)].id,
             time: parseInt(String(new Date().getTime() / 1000)),
-            senderName: '朋友',
+            senderName: isGroupMember ? '群友' : '朋友',
             messageChain: [
-              Message.Plain(message.replace(/他|她|它/g, '我'))
+              Message.Plain((splitMessage || message).replace(/他|她|它/g, '我'))
             ]
           }
         ]
