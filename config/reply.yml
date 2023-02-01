@@ -80,3 +80,26 @@ list:
     return: 
       image: le.jpg
 
+  - receive:
+      text:
+        - sakana
+        - 鱼
+      is_contains: false
+    return: 
+      image: sakana.png
+
+  - receive:
+      text:
+        - 花园鳗
+      is_contains: false
+    return: 
+      image: chinanago.png
+
+  - receive:
+      text:
+        - 讨厌
+      is_contains: false
+    return: 
+      image: taoyan.jpg
+
+

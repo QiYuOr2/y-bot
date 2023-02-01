@@ -1,4 +1,5 @@
 import { Message } from 'mirai-ts';
+import { scheduleJob } from 'node-schedule';
 import { IBotPlugin } from '../types/bot-plugin';
 import { BotMessage, MessageChain } from '../types/message';
 import { isString, isUndefined } from '../utils';
@@ -7,8 +8,13 @@ import { isString, isUndefined } from '../utils';
 type Handler = (...args: any[]) => MessageChain | undefined | Promise<MessageChain | undefined>;
 
 export default class Plugin implements IBotPlugin {
+  constructor() {
+    this.registerTimers();
+  }
+
   message!: Required<BotMessage>;
   context!: Record<string, any>;
+
   main(message: Required<BotMessage>, context: Record<string, any>) {
     this.message = message;
     this.context = context;
@@ -47,8 +53,20 @@ export default class Plugin implements IBotPlugin {
    * @param keywords
    * @returns
    */
-  set(keywords: string | RegExp | (string | RegExp)[]) {
+  set(keywords: string | RegExp | (string | RegExp)[]): Pick<Plugin, 'action' | 'timer'> {
     this.#lazyMethods.push(this.#set(keywords));
+    return this;
+  }
+
+  #cacheTimerRule = '';
+  #timerMap: Map<string, Handler> = new Map();
+
+  /**
+   * 设置定时任务
+   * @param rule cron 字符串
+   */
+  timer(rule: string): Pick<Plugin, 'action'> {
+    this.#cacheTimerRule = rule;
     return this;
   }
 
@@ -58,6 +76,16 @@ export default class Plugin implements IBotPlugin {
    * @returns
    */
   action(handler: Handler) {
+    // 存在 #cacheTimerRule 时，说明需要注册定时任务
+    if (this.#cacheTimerRule) {
+      this.#timerMap.set(this.#cacheTimerRule, handler);
+
+      // 清除缓存的时间规则，防止错误注册
+      this.#cacheTimerRule = '';
+
+      return;
+    }
+
     const _set = this.#lazyMethods.pop();
 
     if (isUndefined(_set)) {
@@ -70,6 +98,19 @@ export default class Plugin implements IBotPlugin {
     keywords.forEach((keyword) => {
       this.#handlerMap.set(keyword, handler);
     });
+  }
+
+  /**
+   * 注册定时器
+   */
+  registerTimers() {
+    if (this.#timerMap.size > 0) {
+      this.#timerMap.forEach((handler, rule) => {
+        scheduleJob(rule, () => {
+          handler();
+        });
+      });
+    }
   }
 
   atReceive() {

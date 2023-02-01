@@ -9,7 +9,7 @@ export class EatPlugin extends Plugin {
   constructor() {
     super();
 
-    this.set(['.eat', '/eat', '今天吃啥']).action(() => {
+    this.set(['.eat', '/eat', '今天吃啥', '今天吃什么']).action(() => {
       const id = this.message.senderQQ;
       !cache[id] ? (cache[id] = 1) : (cache[id] = cache[id] + 1);
       const foodList = readCookMenuConfig().list;

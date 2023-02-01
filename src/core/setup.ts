@@ -16,6 +16,8 @@ export default async function setup(options: SetupOptions) {
 
   const { data: memberList } = await mirai.api.memberList(708376391);
 
+  Entry.create();
+
   mirai.on('message', async (message) => {
     console.log(message);
 
