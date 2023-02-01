@@ -1,7 +1,8 @@
 import { Message, toMessageChain } from 'mirai-ts';
 import Plugin from '../../core/plugin';
+import { Member } from '../../types/message';
 
-export class ForwardPlugin extends Plugin {
+export class ForwardPlugin extends Plugin<{ memberList:Member[] }> {
   constructor() {
     super();
 

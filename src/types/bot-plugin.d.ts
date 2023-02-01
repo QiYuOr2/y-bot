@@ -12,5 +12,7 @@ export interface IBotPlugin {
   /**
    * Entry统一调用该方法处理Plugin
    */
-  main(message: BotMessage, context: Record<string, any>): ReturnType<BotHandler>
+  main(message: BotMessage): ReturnType<BotHandler>
+
+  setupTimers(): void
 }

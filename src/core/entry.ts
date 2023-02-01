@@ -19,14 +19,14 @@ export default class Entry {
   plugins: IBotPlugin[] = [];
   message!: BotMessage;
 
-  context!: BotContext;
+  context: BotContext<any>;
 
   constructor(mirai: Mirai) {
     this.context = { mirai };
     this.loadPlugins();
   }
 
-  use(middleware: (context: Record<string, any>) => void) {
+  use(middleware: (context: any) => void) {
     middleware(this.context);
     return this;
   }
@@ -37,8 +37,10 @@ export default class Entry {
   }
 
   loadPlugins() {
-    this.plugins = Object.values(PluginModules).map((P) => new P());
+    this.plugins = Object.values(PluginModules).map((P) => new P().injectContext(this.context));
     this.#triggerKeywords = this.plugins.map((ins) => ins.getKeywords()).flat();
+
+    this.plugins.forEach(p => p.setupTimers());
   }
 
   async toReplyMessage() {
@@ -57,7 +59,7 @@ export default class Entry {
       };
 
       if (plugin.getKeywords().some(eq)) {
-        result = await plugin.main(this.message, this.context);
+        result = await plugin.main(this.message);
       }
     }
 

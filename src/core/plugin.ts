@@ -1,20 +1,20 @@
 import { Message } from 'mirai-ts';
 import { scheduleJob } from 'node-schedule';
 import { BotContext, BotHandler, IBotPlugin } from '../types/bot-plugin';
-import { BotMessage, Member } from '../types/message';
+import { BotMessage } from '../types/message';
 import { isString, isUndefined } from '../utils';
 
-export default class Plugin implements IBotPlugin {
-  constructor() {
-    this.registerTimers();
+export default class Plugin<BotContextExtra = Record<string, any>> implements IBotPlugin {
+  context!: BotContext<BotContextExtra>;
+  injectContext(context: BotContext<BotContextExtra>) {
+    this.context = context;
+    return this;
   }
 
   message!: Required<BotMessage>;
-  context!: BotContext<{ memberList: Member[] }>;
 
-  main(message: Required<BotMessage>, context: BotContext<{ memberList: Member[] }>) {
+  main(message: Required<BotMessage>) {
     this.message = message;
-    this.context = context;
 
     if (message.keywordsRegExp) {
       return this.exec(message.keywordsRegExp, [...message.args, message.matchKeywords]);
@@ -98,11 +98,12 @@ export default class Plugin implements IBotPlugin {
   }
 
   /**
-   * 注册定时器
+   * 启动定时器
    */
-  registerTimers() {
+  setupTimers() {
     if (this.#timerMap.size > 0) {
       this.#timerMap.forEach((handler, rule) => {
+        console.log(`[y-bot] [timer ${rule}] 注册`);
         scheduleJob(rule, () => {
           handler();
         });
