@@ -1,4 +1,3 @@
-import { Message } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 
 export class MonitorPlugin extends Plugin {
@@ -7,7 +6,7 @@ export class MonitorPlugin extends Plugin {
 
     // 每分钟执行一次
     this.timer('0 */1 * * * ?').action(() => {
-      return [Message.Plain('')];
+      // this.context.mirai.api.sendGroupMessage([], 708376391);
     });
   }
 }

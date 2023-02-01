@@ -1,11 +1,8 @@
 import { Message } from 'mirai-ts';
 import { scheduleJob } from 'node-schedule';
-import { IBotPlugin } from '../types/bot-plugin';
-import { BotMessage, MessageChain } from '../types/message';
+import { BotContext, BotHandler, IBotPlugin } from '../types/bot-plugin';
+import { BotMessage, Member } from '../types/message';
 import { isString, isUndefined } from '../utils';
-
-// eslint-disable-next-line no-unused-vars
-type Handler = (...args: any[]) => MessageChain | undefined | Promise<MessageChain | undefined>;
 
 export default class Plugin implements IBotPlugin {
   constructor() {
@@ -13,9 +10,9 @@ export default class Plugin implements IBotPlugin {
   }
 
   message!: Required<BotMessage>;
-  context!: Record<string, any>;
+  context!: BotContext<{ memberList: Member[] }>;
 
-  main(message: Required<BotMessage>, context: Record<string, any>) {
+  main(message: Required<BotMessage>, context: BotContext<{ memberList: Member[] }>) {
     this.message = message;
     this.context = context;
 
@@ -31,7 +28,7 @@ export default class Plugin implements IBotPlugin {
     return this.#triggerKeywords;
   }
 
-  #handlerMap: Map<string, Handler> = new Map();
+  #handlerMap: Map<string, BotHandler> = new Map();
 
   #lazyMethods: Function[] = [];
 
@@ -59,7 +56,7 @@ export default class Plugin implements IBotPlugin {
   }
 
   #cacheTimerRule = '';
-  #timerMap: Map<string, Handler> = new Map();
+  #timerMap: Map<string, BotHandler> = new Map();
 
   /**
    * 设置定时任务
@@ -75,7 +72,7 @@ export default class Plugin implements IBotPlugin {
    * @param handler
    * @returns
    */
-  action(handler: Handler) {
+  action(handler: BotHandler) {
     // 存在 #cacheTimerRule 时，说明需要注册定时任务
     if (this.#cacheTimerRule) {
       this.#timerMap.set(this.#cacheTimerRule, handler);

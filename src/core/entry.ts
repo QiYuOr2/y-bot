@@ -1,5 +1,6 @@
+import { Mirai } from 'mirai-ts';
 import { BotMessage, MessageChain, ReceiveMessage } from '../types/message';
-import { IBotPlugin } from '../types/bot-plugin';
+import { BotContext, IBotPlugin } from '../types/bot-plugin';
 import * as PluginModules from '../plugins';
 import { isRegExpString, isUndefined } from '../utils';
 import receiveHandler from './receive-handler';
@@ -7,9 +8,9 @@ import receiveHandler from './receive-handler';
 export default class Entry {
   // eslint-disable-next-line no-use-before-define
   static instance: Entry;
-  static create() {
+  static create(mirai: Mirai) {
     if (!this.instance) {
-      this.instance = new Entry();
+      this.instance = new Entry(mirai);
     }
     return this.instance;
   }
@@ -18,9 +19,10 @@ export default class Entry {
   plugins: IBotPlugin[] = [];
   message!: BotMessage;
 
-  context: Record<string, any> = {};
+  context!: BotContext;
 
-  constructor() {
+  constructor(mirai: Mirai) {
+    this.context = { mirai };
     this.loadPlugins();
   }
 
