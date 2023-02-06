@@ -1,33 +1,23 @@
-// import Entry from './core/entry';
+import { Mirai } from 'mirai-ts';
+import Entry from './core/entry';
 
-// (async () => {
-//   const result = await Entry.create()
-//     .receive({
-//       type: 'FriendMessage',
-//       plain: '朋友说 100',
-//       isAtMe: false,
-//       messageChain: [],
-//       sender: {
-//         id: 123,
-//         nickname: 'string',
-//         remark: 'string'
-//       }
-//     })
-//     .toReplyMessage();
+(async () => {
+  const result = await Entry.create({} as Mirai)
+    .receive({
+      type: 'FriendMessage',
+      plain: '.dear',
+      isAtMe: false,
+      messageChain: [
+        { type: 'Source', id: 1176281967, time: Date.now() },
+        { type: 'At', target: 1176281967, display: '@1' }
+      ],
+      sender: {
+        id: 123,
+        nickname: 'string',
+        remark: 'string'
+      }
+    })
+    .toReplyMessage();
 
-//   console.log(result);
-// })();
-
-// Entry.create()
-//   .receive({
-//     type: 'FriendMessage',
-//     plain: '.r 2d6',
-//     isAtMe: false,
-//     messageChain: [],
-//     sender: {
-//       id: 123,
-//       nickname: 'string',
-//       remark: 'string',
-//     },
-//   })
-//   .toReplyMessage();
+  console.log(result);
+})();

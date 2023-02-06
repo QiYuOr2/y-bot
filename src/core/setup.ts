@@ -25,7 +25,7 @@ export default async function setup(options: SetupOptions) {
 
     const result = await Entry.create(mirai)
       .use((ctx) => { ctx.memberList = memberList; })
-      .receive({ ...(message as Omit<ReceiveMessage, 'isAtMe'>), isAtMe })
+      .receive({ ...(message as Omit<ReceiveMessage, 'isAtMe' | 'atTarget'>), isAtMe })
       .toReplyMessage();
 
     !isUndefined(result) && message.reply(result);

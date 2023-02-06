@@ -16,7 +16,7 @@ export class EatPlugin extends Plugin {
     });
 
     // 定时任务
-    this.timer('').action(() => {
+    this.timer(/* cron 表达式 */'0 */1 * * * ?').action(() => {
       return [Message.Plain(`Hello World`)];
     });
   }

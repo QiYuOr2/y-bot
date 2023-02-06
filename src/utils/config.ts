@@ -4,6 +4,8 @@ import y from 'js-yaml';
 import { Message } from 'mirai-ts';
 import { GachaConfig } from '../types/config';
 
+export const assets = (pathname: string) => path.join(__dirname, `../../assets/${pathname}`);
+
 export const readToBase64 = (pathname: string) => {
   const image = fs.readFileSync(pathname, 'base64');
   return image;

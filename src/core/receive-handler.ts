@@ -49,6 +49,7 @@ export default function receiveHandler(message: ReceiveMessage, keywords: string
     keywordsRegExp,
     args,
     source: message.messageChain.at(0) as MessageType.Source,
-    plain: message.plain
+    plain: message.plain,
+    atTarget: (message.messageChain.filter(m => m.type === 'At')?.[0] as MessageType.At)?.target
   };
 }

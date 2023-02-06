@@ -3,7 +3,7 @@ import Plugin from '../../core/plugin';
 import { MessageChain } from '../../types/message';
 import { isUndefined } from '../../utils';
 
-const fateList = [
+const FateList = [
   ['大吉', 10],
   ['凶', 5],
   ['末吉', 25],
@@ -25,7 +25,7 @@ export class RollPlugin extends Plugin {
     const count = Number(income) || 1;
     const countMap = new Map();
 
-    const list = fateList.map((item) => new Array(item[1]).fill(item[0])).flat() as string[];
+    const list = FateList.map((item) => new Array(item[1]).fill(item[0])).flat() as string[];
     const get = new Array(count).fill(0).map(() => {
       const current = list[Math.floor(Math.random() * list.length)];
 

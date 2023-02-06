@@ -100,4 +100,9 @@ export interface BotMessage {
    * 消息的文字内容
    */
   plain: string
+
+  /**
+   * at 目标
+   */
+  atTarget?: number
 }
