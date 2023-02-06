@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Canvas, createCanvas, Image, loadImage } from 'canvas';
 import GIFEncoder from 'gif-encoder';
 import getPixels from 'get-pixels';
-import { BotHandler } from '../../../types/bot-plugin';
 import { assets, localImage } from '../../../utils';
 
 const tmpFilename = 'dear-result.gif';
