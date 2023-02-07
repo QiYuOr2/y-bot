@@ -5,7 +5,7 @@ import Entry from './core/entry';
   const result = await Entry.create({} as Mirai)
     .receive({
       type: 'FriendMessage',
-      plain: '.dear',
+      plain: '.pet',
       isAtMe: false,
       messageChain: [
         { type: 'Source', id: 1176281967, time: Date.now() },

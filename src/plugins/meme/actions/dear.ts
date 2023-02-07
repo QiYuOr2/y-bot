@@ -1,18 +1,17 @@
 import fs from 'fs';
-import axios from 'axios';
 import { Canvas, createCanvas, Image, loadImage } from 'canvas';
 import GIFEncoder from 'gif-encoder';
-import getPixels from 'get-pixels';
 import { assets, localImage } from '../../../utils';
+import { avatar, getPixelsSync } from '../helper';
 
-const tmpFilename = 'dear-result.gif';
-const tmpPath = assets(`images/${tmpFilename}`);
+const TmpFilename = 'dear-result.gif';
+const TmpPath = assets(`images/${TmpFilename}`);
 
 const Avatar = {
   Width: 70,
   Height: 70
 };
-const xy = [
+const XY = [
   [45, 110],
   [50, 110],
   [58, 110],
@@ -28,25 +27,14 @@ const xy = [
   [20, 150]
 ];
 
-const getPixelsSync = (path: string) => new Promise<{ data: Uint8Array }>((resolve, reject) => {
-  getPixels(path, (err, pixels) => {
-    if (err) {
-      reject(err);
-    }
-    resolve(pixels);
-  });
-});
-
 export default async function dear(getTarget: () => number) {
   const target = getTarget();
 
   if (!target) { return; }
-  const avatarUrl = `https://q.qlogo.cn/g?b=qq&nk=${target}&s=100`;
-  const avatarResponse = await axios(avatarUrl, { responseType: 'arraybuffer' });
-  const avatarBuffer = Buffer.from(avatarResponse.data);
+  const avatarBuffer = await avatar(target).buffer;
 
   const encoder = new GIFEncoder(240, 240);
-  const result = fs.createWriteStream(tmpPath);
+  const result = fs.createWriteStream(TmpPath);
   const pics = new Array(13).fill(0).map((_, i) => assets(`images/dears/${i}.png`));
 
   encoder.pipe(result);
@@ -63,7 +51,7 @@ export default async function dear(getTarget: () => number) {
     const ctx = canvas.getContext('2d');
 
     const drawAvatar = (avatar: Canvas | Image) => {
-      const [x, y] = xy[counter];
+      const [x, y] = XY[counter];
       ctx.drawImage(avatar, x, y, Avatar.Width, Avatar.Height);
       return canvas.toDataURL();
     };
@@ -80,5 +68,5 @@ export default async function dear(getTarget: () => number) {
 
   encoder.finish();
 
-  return localImage(tmpFilename);
+  return localImage(TmpFilename);
 }

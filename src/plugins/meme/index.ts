@@ -1,6 +1,7 @@
-import { Message } from 'mirai-ts';
+import { Message, MessageType } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 import dear from './actions/dear';
+import pet from './actions/pet';
 
 export class MemePlugin extends Plugin {
   constructor() {
@@ -9,9 +10,19 @@ export class MemePlugin extends Plugin {
     this.set(['.dear', '亲亲']).action(async (target) => {
       const meme = await dear(() => target || this.message.atTarget);
 
-      if (meme) {
-        return [this.message.type === 'GroupMessage' ? this.atReceive() : Message.Plain(''), meme];
-      }
+      return this.replyMeme(meme);
     });
+
+    this.set(['.pet', '摸摸']).action(async (target) => {
+      const meme = await pet(() => target || this.message.atTarget);
+
+      return this.replyMeme(meme);
+    });
+  }
+
+  replyMeme(meme?: MessageType.Image) {
+    if (meme) {
+      return [this.message.type === 'GroupMessage' ? this.atReceive() : Message.Plain(''), meme];
+    }
   }
 }
