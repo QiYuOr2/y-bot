@@ -1,5 +1,6 @@
 import { Message, MessageType } from 'mirai-ts';
 import Plugin from '../../core/plugin';
+import coupon from './actions/coupon';
 import dear from './actions/dear';
 import marry from './actions/marry';
 import pet from './actions/pet';
@@ -22,6 +23,12 @@ export class MemePlugin extends Plugin {
 
     this.set(['.marry', '和我结婚']).action(async (target) => {
       const meme = await marry(() => target || this.message.atTarget);
+
+      return this.replyMeme(meme);
+    });
+
+    this.set(['.coupon', '陪睡']).action(async (target) => {
+      const meme = await coupon(() => target || this.message.atTarget);
 
       return this.replyMeme(meme);
     });
