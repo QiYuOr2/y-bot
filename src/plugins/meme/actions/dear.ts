@@ -1,8 +1,6 @@
-import fs from 'fs';
 import { Canvas, createCanvas, Image, loadImage } from 'canvas';
-import GIFEncoder from 'gif-encoder';
 import { assets, localImage } from '../../../utils';
-import { avatar, getPixelsSync } from '../helper';
+import { avatar, createGif, getPixelsSync } from '../helper';
 
 const TmpFilename = 'dear-result.gif';
 const TmpPath = assets(`images/${TmpFilename}`);
@@ -33,15 +31,9 @@ export default async function dear(getTarget: () => number) {
   if (!target) { return; }
   const avatarBuffer = await avatar(target).buffer;
 
-  const encoder = new GIFEncoder(240, 240);
-  const result = fs.createWriteStream(TmpPath);
-  const pics = new Array(13).fill(0).map((_, i) => assets(`images/dears/${i}.png`));
+  const [encoder] = createGif(TmpPath, { w: 240, h: 240 });
 
-  encoder.pipe(result);
-  encoder.setQuality(20);
-  encoder.setDelay(50);
-  encoder.setRepeat(0);
-  encoder.writeHeader();
+  const pics = new Array(13).fill(0).map((_, i) => assets(`images/dears/${i}.png`));
 
   for (const i in pics) {
     const counter = Number(i);

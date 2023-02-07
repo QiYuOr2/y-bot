@@ -1,17 +1,15 @@
-import fs from 'fs';
 import { createCanvas, Image, Canvas, loadImage } from 'canvas';
-import GIFEncoder from 'gif-encoder';
 import { assets, localImage } from '../../../utils';
-import { avatar, getPixelsSync } from '../helper';
+import { avatar, createGif, getPixelsSync } from '../helper';
 
 const TmpFilename = 'pet-result.gif';
 const TmpPath = assets(`images/${TmpFilename}`);
-const SpritePath = assets('images/pet.png');
-
-const SpriteWidth = 112;
 
 const AvatarSize = 80;
 const CanvasSize = 120;
+
+const SpritePath = assets('images/pet.png');
+const SpriteWidth = 112;
 
 const SpriteSizes = [
   [20, 40, AvatarSize, AvatarSize],
@@ -26,14 +24,7 @@ export default async function pet(getTarget: () => number) {
 
   if (!target) { return; }
 
-  const encoder = new GIFEncoder(CanvasSize, CanvasSize);
-  const result = fs.createWriteStream(TmpPath);
-
-  encoder.pipe(result);
-  encoder.setQuality(20);
-  encoder.setDelay(50);
-  encoder.setRepeat(0);
-  encoder.writeHeader();
+  const [encoder] = createGif(TmpPath, { w: CanvasSize, h: CanvasSize });
 
   const sprite = await loadImage(SpritePath);
 

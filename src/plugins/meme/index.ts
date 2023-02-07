@@ -1,6 +1,7 @@
 import { Message, MessageType } from 'mirai-ts';
 import Plugin from '../../core/plugin';
 import dear from './actions/dear';
+import marry from './actions/marry';
 import pet from './actions/pet';
 
 export class MemePlugin extends Plugin {
@@ -15,6 +16,12 @@ export class MemePlugin extends Plugin {
 
     this.set(['.pet', '摸摸']).action(async (target) => {
       const meme = await pet(() => target || this.message.atTarget);
+
+      return this.replyMeme(meme);
+    });
+
+    this.set(['.marry', '和我结婚']).action(async (target) => {
+      const meme = await marry(() => target || this.message.atTarget);
 
       return this.replyMeme(meme);
     });
