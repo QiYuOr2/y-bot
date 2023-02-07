@@ -104,6 +104,10 @@ export const readArknightsGacha = () => {
  * 读取敏感词
  */
 export const readSensitiveWords = () => {
-  const file = fs.readFileSync(path.join(__dirname, '../../config/sensitive_words_lines'), 'utf-8');
-  return file.split('\n');
+  try {
+    const file = fs.readFileSync(path.join(__dirname, '../../config/sensitive_words_lines'), 'utf-8');
+    return file.split('\n');
+  } catch {
+    return [];
+  }
 };
