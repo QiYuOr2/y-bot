@@ -1,6 +1,6 @@
 import Mirai, { MessageType, MiraiApiHttpSetting } from 'mirai-ts';
 import { ReceiveMessage } from '../types/message';
-import { isUndefined } from '../utils';
+import { isUndefined, readSensitiveWords } from '../utils';
 import Entry from './entry';
 
 type SetupOptions = {
@@ -29,6 +29,9 @@ export default async function setup(options: SetupOptions) {
       .toReplyMessage();
 
     !isUndefined(result) && message.reply(result);
+
+    readSensitiveWords().some((w) => message.plain.includes(w)) &&
+      message.reply('检测到敏感词汇！请注意发言用词！', true);
   });
 
   mirai.listen();
