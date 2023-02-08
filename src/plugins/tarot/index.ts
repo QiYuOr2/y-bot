@@ -163,10 +163,12 @@ export class TarotPlugin extends Plugin {
 
     this.set(['.tarot', '塔罗牌']).action(() => {
       const imgs = tarots();
-      const result = new Array(4).fill(0).reduce<{key:string, content: string, path: string}[]>((result) => {
-        const { key, content } = this.randomOne();
 
-        result.push({ key, content, path: imgs.filter(item => item.name === key)[0].path });
+      const randomIndexList: number[] = [];
+      const result = new Array(4).fill(0).reduce<{key:string, content: string, path: string}[]>((result) => {
+        const { key, content, label } = this.randomOne(randomIndexList);
+
+        result.push({ key: label, content, path: imgs.filter(item => item.name === key)[0].path });
 
         return result;
       }, []);
@@ -184,7 +186,7 @@ export class TarotPlugin extends Plugin {
             senderId: this.context.mirai.qq,
             time: timeStart,
             senderName: '魔女的使徒',
-            messageChain: Object.keys(meanings).map((k) => Message.Plain(`${k}: ${meanings[k]}`))
+            messageChain: Object.keys(meanings).map((k) => Message.Plain(`*\n${k}: ${meanings[k]}`))
           },
           ...result.map(item => {
             timeStart += 1000;
@@ -205,15 +207,22 @@ export class TarotPlugin extends Plugin {
     });
   }
 
-  randomOne() {
+  randomOne(repeat: number[]): { key: string, label: string, content: string } {
     const keys = Object.keys(cards);
-    const randomKey = keys[Math.floor(Math.random() * keys.length)] as keyof typeof cards;
+    const index = Math.floor(Math.random() * keys.length);
+
+    if (repeat.includes(index)) {
+      return this.randomOne(repeat);
+    }
+
+    repeat.push(index);
+    const randomKey = keys[index] as keyof typeof cards;
 
     if (typeof cards[randomKey] === 'string') {
-      return { key: randomKey, content: cards[randomKey] };
+      return { key: randomKey, label: randomKey, content: cards[randomKey] as string };
     }
 
     const type = Math.floor(Math.random() * 2) === 0 ? '正位' : '逆位';
-    return { key: `${randomKey}(${type})`, content: (cards[randomKey] as any)[type] };
+    return { key: randomKey, label: `${randomKey}(${type})`, content: (cards[randomKey] as any)[type] };
   }
 }
