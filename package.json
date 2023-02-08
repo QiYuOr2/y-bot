@@ -38,6 +38,7 @@
   "devDependencies": {
     "@types/get-pixels": "^3.3.2",
     "@types/gif-encoder": "^0.7.1",
+    "@types/glob": "^8.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^17.0.23",
     "@types/node-schedule": "^2.1.0",

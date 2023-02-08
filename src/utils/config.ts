@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import y from 'js-yaml';
+import glob from 'glob';
 import { Message } from 'mirai-ts';
 import { GachaConfig } from '../types/config';
 
@@ -110,4 +111,13 @@ export const readSensitiveWords = () => {
   } catch {
     return [];
   }
+};
+
+export const tarots = () => {
+  const rootPath = assets('images/tarot/');
+
+  return glob.sync(rootPath + '*.jpg').map(filePath => ({
+    path: filePath.replace(rootPath, 'tarot/'),
+    name: filePath.replace(rootPath, '').replace('.jpg', '')
+  }));
 };

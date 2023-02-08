@@ -6,3 +6,4 @@ export * from './arknights';
 export * from './forward';
 export * from './monitor';
 export * from './meme';
+export * from './tarot';
