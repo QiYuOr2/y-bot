@@ -186,7 +186,7 @@ export class TarotPlugin extends Plugin {
             senderId: this.context.mirai.qq,
             time: timeStart,
             senderName: '魔女的使徒',
-            messageChain: Object.keys(meanings).map((k) => Message.Plain(`*\n${k}: ${meanings[k]}`))
+            messageChain: [Message.Plain('*'), ...Object.keys(meanings).map((k) => Message.Plain(`\n${k}: ${meanings[k]}`))]
           },
           ...result.map(item => {
             timeStart += 1000;

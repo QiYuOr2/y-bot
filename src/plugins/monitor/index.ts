@@ -7,7 +7,13 @@ let cacheContent = '';
 export class MonitorPlugin extends Plugin {
   constructor() {
     super();
-    this.timer('0 */5 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?').action(() => this.arknightsInBili());
+    this.timer('0 */5 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?').action(() => {
+      try {
+        return this.arknightsInBili();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
 
   async arknightsInBili() {
