@@ -1,23 +1,14 @@
-import { Mirai } from 'mirai-ts';
-import Entry from './core/entry';
+import fs from 'fs';
+import path from 'path';
+import { MiraiApiHttpSetting } from 'mirai-ts';
+import yaml from 'js-yaml';
+import { createApp } from './core2/application';
 
-(async () => {
-  const result = await Entry.create({} as Mirai)
-    .receive({
-      type: 'FriendMessage',
-      plain: '.tarot',
-      isAtMe: false,
-      messageChain: [
-        { type: 'Source', id: 1176281967, time: Date.now() },
-        { type: 'At', target: 1176281967, display: '@1' }
-      ],
-      sender: {
-        id: 123,
-        nickname: 'string',
-        remark: 'string'
-      }
-    })
-    .toReplyMessage();
+const settings = yaml.load(
+  fs.readFileSync(path.resolve(__dirname, '../../../app/mcl/config/net.mamoe.mirai-api-http/setting.yml'), 'utf8')
+) as MiraiApiHttpSetting;
 
-  console.log(result);
-})();
+createApp({ qq: 2799397589, settings })
+  .use((ctx) => {
+  })
+  .listen();
