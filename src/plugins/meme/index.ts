@@ -3,6 +3,7 @@ import Plugin from '../../core/plugin';
 import coupon from './actions/coupon';
 import dear from './actions/dear';
 import marry from './actions/marry';
+import pa from './actions/pa';
 import pet from './actions/pet';
 
 export class MemePlugin extends Plugin {
@@ -29,6 +30,12 @@ export class MemePlugin extends Plugin {
 
     this.set(['.coupon', '陪睡']).action(async (target) => {
       const meme = await coupon(() => target || this.message.atTarget);
+
+      return this.replyMeme(meme);
+    });
+
+    this.set(['.pa', '爬']).action(async (target) => {
+      const meme = await pa(() => target || this.message.atTarget);
 
       return this.replyMeme(meme);
     });

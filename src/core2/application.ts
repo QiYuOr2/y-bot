@@ -10,23 +10,16 @@ type CreateAppOptions = {
 
 class Application {
   #qq;
-  #middleware: Middleware[];
   #compose;
   #context;
 
   constructor(mirai: Mirai, options: CreateAppOptions) {
     this.#qq = options.qq;
-    this.#middleware = [];
     this.#compose = compose;
     this.#context = new BotContext(mirai);
   }
 
-  use(fn: Middleware) {
-    this.#middleware.push(fn);
-    return this;
-  }
-
-  createContext(message: MessageType.ChatMessage): BotContext {
+  #createContext(message?: MessageType.ChatMessage): BotContext {
     const context = Object.create(this.#context);
 
     context.message = message;
@@ -35,19 +28,25 @@ class Application {
   }
 
   async handleMessage(context: BotContext, fn: Middleware) {
-    await fn(context);
+    await fn(context, () => Promise.resolve());
+  }
+
+  subscribe<T extends 'message' | MessageType.ChatMessageType>(middleware: Middleware[], source?: T) {
+    const fn = this.#compose(middleware);
+    if (!source) {
+      fn(this.#createContext());
+      return this;
+    }
+
+    this.#context.mirai.on(source, (message) => {
+      this.handleMessage(this.#createContext(message), fn);
+    });
+
+    return this;
   }
 
   async listen() {
-    const fn = this.#compose(this.#middleware);
-    fn(this.#context);
-
     await this.#context.mirai.link(this.#qq);
-
-    this.#context.mirai.on('message', (message) => {
-      this.handleMessage(this.createContext(message), fn);
-    });
-
     this.#context.mirai.listen();
   }
 }

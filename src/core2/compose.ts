@@ -6,9 +6,8 @@ export default function compose(middleware: Middleware[]) {
     const dispatch = async (i: number) => {
       const fn = middleware.length > i ? middleware[i] : next;
 
-      if (fn === undefined) {
-        await Promise.resolve();
-        return;
+      if (!fn) {
+        return Promise.resolve();
       }
 
       await fn(context, dispatch.bind(null, i + 1));

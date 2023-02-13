@@ -2,14 +2,14 @@ import { MessageType, Mirai } from 'mirai-ts';
 
 export default class BotContext {
   mirai: Mirai;
-  message!: MessageType.ChatMessage;
+  message?: MessageType.ChatMessage;
 
   constructor(mirai: Mirai) {
     this.mirai = mirai;
   }
 
   reply(msgChain: string | MessageType.MessageChain, quote?: boolean | undefined) {
-    return this.message.reply(msgChain, quote);
+    return this.message?.reply(msgChain, quote);
   }
 
   sendFriend(msgChain: string | MessageType.MessageChain, target: number, quote?: number | undefined) {
