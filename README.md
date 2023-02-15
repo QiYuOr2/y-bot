@@ -16,6 +16,10 @@
 
 ## 鸣谢
 
+特别感谢 [JetBrains](https://jb.gg/OpenSourceSupport.) 为开源项目提供免费的 IntelliJ IDEA 等 IDE 的授权
+
+<img width="200" height="200" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_ga=2.194417903.397015689.1676440074-134452812.1665640168&_gl=1*oewnch*_ga*MTM0NDUyODEyLjE2NjU2NDAxNjg.*_ga_9J976DJZ68*MTY3NjQ0MDA3My40LjEuMTY3NjQ0MDUxMi42MC4wLjA." />
+
 - [mirai](https://github.com/mamoe/mirai)
 - [mirai-ts](https://github.com/YunYouJun/mirai-ts)
 - [genshin-kit](https://www.npmjs.com/package/@genshin-kit/core)
