@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import { MiraiApiHttpSetting } from 'mirai-ts';
-import { define } from './core2/plugin';
+import { define } from './core2/define';
 import { createApp } from './core2/application';
 
 const settings = yaml.load(
@@ -10,7 +10,7 @@ const settings = yaml.load(
 ) as MiraiApiHttpSetting;
 
 const test = define('.echo', (ctx) => {
-  ctx.reply(ctx.message?.plain ?? '');
+  return '';
 });
 
 createApp({ qq: 2799397589, settings })
