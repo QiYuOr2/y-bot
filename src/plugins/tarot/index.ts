@@ -1,7 +1,6 @@
-
 import { Message, toMessageChain } from 'mirai-ts';
-import Plugin from '../../core/plugin';
-import { localImage, tarots } from '../../utils';
+import { localImage, tarots } from '@/utils';
+import { define } from '@/core/define';
 
 const cards = {
   圣杯1: '家庭生活之幸福，别的牌可给予其更多内涵，如宾客来访、宴席、吵架',
@@ -157,72 +156,71 @@ const meanings: Record<string, string> = {
   切牌: '表示问卜者的主观想法'
 };
 
-export class TarotPlugin extends Plugin {
-  constructor() {
-    super();
+function randomOne(repeat: number[]): { key: string, label: string, content: string } {
+  const keys = Object.keys(cards);
+  const index = Math.floor(Math.random() * keys.length);
 
-    this.set(['.tarot', '塔罗牌']).action(() => {
-      const imgs = tarots();
-
-      const randomIndexList: number[] = [];
-      const result = new Array(4).fill(0).reduce<{key:string, content: string, path: string}[]>((result) => {
-        const { key, content, label } = this.randomOne(randomIndexList);
-
-        result.push({ key: label, content, path: imgs.filter(item => item.name === key)[0].path });
-
-        return result;
-      }, []);
-
-      let timeStart = parseInt(String(new Date().getTime() / 1000));
-
-      return toMessageChain({
-        type: 'Forward',
-        title: '占卜结果',
-        brief: '占卜结果',
-        summary: '查看占卜结果',
-        source: '',
-        nodeList: [
-          {
-            senderId: this.context.mirai.qq,
-            time: timeStart,
-            senderName: '魔女的使徒',
-            messageChain: [Message.Plain('*'), ...Object.keys(meanings).map((k) => Message.Plain(`\n${k}: ${meanings[k]}`))]
-          },
-          ...result.map(item => {
-            timeStart += 1000;
-            return {
-              senderId: this.context.mirai.qq,
-              time: timeStart,
-              senderName: '魔女的使徒',
-              messageChain: [
-                localImage(item.path),
-                Message.Plain(item.key),
-                Message.Plain('\n'),
-                Message.Plain(item.content)
-              ]
-            };
-          })
-        ]
-      });
-    });
+  if (repeat.includes(index)) {
+    return randomOne(repeat);
   }
 
-  randomOne(repeat: number[]): { key: string, label: string, content: string } {
-    const keys = Object.keys(cards);
-    const index = Math.floor(Math.random() * keys.length);
+  repeat.push(index);
+  const randomKey = keys[index] as keyof typeof cards;
 
-    if (repeat.includes(index)) {
-      return this.randomOne(repeat);
-    }
-
-    repeat.push(index);
-    const randomKey = keys[index] as keyof typeof cards;
-
-    if (typeof cards[randomKey] === 'string') {
-      return { key: randomKey, label: randomKey, content: cards[randomKey] as string };
-    }
-
-    const type = Math.floor(Math.random() * 2) === 0 ? '正位' : '逆位';
-    return { key: randomKey, label: `${randomKey}(${type})`, content: (cards[randomKey] as any)[type] };
+  if (typeof cards[randomKey] === 'string') {
+    return { key: randomKey, label: randomKey, content: cards[randomKey] as string };
   }
+
+  const type = Math.floor(Math.random() * 2) === 0 ? '正位' : '逆位';
+  return { key: randomKey, label: `${randomKey}(${type})`, content: (cards[randomKey] as any)[type] };
 }
+
+export const tarot = define(['.tarot', '塔罗牌'], (ctx) => {
+  const imgs = tarots();
+
+  const randomIndexList: number[] = [];
+  const result = new Array(4)
+    .fill(0)
+    .reduce<{ key: string, content: string, path: string }[]>((result) => {
+      const { key, content, label } = randomOne(randomIndexList);
+
+      result.push({ key: label, content, path: imgs.filter(item => item.name === key)[0].path });
+
+      return result;
+    }, []);
+
+  let timeStart = parseInt(String(new Date().getTime() / 1000));
+
+  return toMessageChain({
+    type: 'Forward',
+    title: '占卜结果',
+    brief: '占卜结果',
+    summary: '查看占卜结果',
+    source: '',
+    nodeList: [
+      {
+        senderId: ctx.mirai.qq,
+        time: timeStart,
+        senderName: '魔女的使徒',
+        messageChain: [
+          Message.Plain('*'),
+          ...Object.keys(meanings).map((k) => Message.Plain(`\n${k}: ${meanings[k]}`))
+        ]
+      },
+      ...result.map(item => {
+        timeStart += 1000;
+        return {
+          senderId: ctx.mirai.qq,
+          time: timeStart,
+          senderName: '魔女的使徒',
+          messageChain: [
+            localImage(item.path),
+            Message.Plain(item.key),
+            Message.Plain('\n'),
+            Message.Plain(item.content)
+          ]
+        };
+      })
+    ]
+  });
+});

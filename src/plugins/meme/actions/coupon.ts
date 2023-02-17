@@ -13,9 +13,7 @@ const CanvasSize = {
 
 const BackgroundPath = assets('images/coupon.png');
 
-export default async function coupon(getTarget: () => number) {
-  const target = getTarget();
-
+export default async function coupon(target?: string | number) {
   if (!target) { return; }
 
   const [encoder] = createGif(TmpPath, { w: CanvasSize.Width, h: CanvasSize.Height });

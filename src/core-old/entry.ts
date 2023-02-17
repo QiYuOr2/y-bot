@@ -1,7 +1,7 @@
 import { Mirai } from 'mirai-ts';
 import { BotMessage, MessageChain, ReceiveMessage } from '../types/message';
 import { BotContext, IBotPlugin } from '../types/bot-plugin';
-import * as PluginModules from '../plugins';
+// import * as PluginModules from '../plugins';
 import { isRegExpString, isUndefined } from '../utils';
 import receiveHandler from './receive-handler';
 
@@ -37,10 +37,10 @@ export default class Entry {
   }
 
   loadPlugins() {
-    this.plugins = Object.values(PluginModules).map((P) => new P().injectContext(this.context));
-    this.#triggerKeywords = this.plugins.map((ins) => ins.getKeywords()).flat();
+    // this.plugins = Object.values(PluginModules).map((P) => new P().injectContext(this.context));
+    // this.#triggerKeywords = this.plugins.map((ins) => ins.getKeywords()).flat();
 
-    this.plugins.forEach(p => p.setupTimers());
+    // this.plugins.forEach(p => p.setupTimers());
   }
 
   async toReplyMessage() {

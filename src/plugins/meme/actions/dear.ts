@@ -25,10 +25,9 @@ const XY = [
   [20, 150]
 ];
 
-export default async function dear(getTarget: () => number) {
-  const target = getTarget();
-
+export default async function dear(target?: string | number) {
   if (!target) { return; }
+
   const avatarBuffer = await avatar(target).buffer;
 
   const [encoder] = createGif(TmpPath, { w: 240, h: 240 });

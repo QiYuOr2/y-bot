@@ -36,7 +36,7 @@ export function getPixelsSync(path: string) {
   });
 }
 
-export function avatar(target: number) {
+export function avatar(target: number | string) {
   const avatarUrl = `https://q.qlogo.cn/g?b=qq&nk=${target}&s=100`;
 
   let cacheData: ArrayBuffer;

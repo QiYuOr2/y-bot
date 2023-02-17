@@ -1,49 +1,38 @@
 import { Message, MessageType } from 'mirai-ts';
-import Plugin from '../../core/plugin';
 import coupon from './actions/coupon';
 import dear from './actions/dear';
 import marry from './actions/marry';
 import pa from './actions/pa';
 import pet from './actions/pet';
+import { define } from '@/core/define';
+import BotContext from '@/core/context';
+import { MessageChain } from '@/types/message';
 
-export class MemePlugin extends Plugin {
-  constructor() {
-    super();
+function getTarget(ctx: BotContext) {
+  const targetInPlain = ctx.message?.plain.split(' ')[1];
+  return ctx.message?.get('At')?.target ?? targetInPlain;
+}
 
-    this.set(['.dear', '亲亲']).action(async (target) => {
-      const meme = await dear(() => target || this.message.atTarget);
-
-      return this.replyMeme(meme);
-    });
-
-    this.set(['.pet', '摸摸']).action(async (target) => {
-      const meme = await pet(() => target || this.message.atTarget);
-
-      return this.replyMeme(meme);
-    });
-
-    this.set(['.marry', '和我结婚']).action(async (target) => {
-      const meme = await marry(() => target || this.message.atTarget);
-
-      return this.replyMeme(meme);
-    });
-
-    this.set(['.coupon', '陪睡']).action(async (target) => {
-      const meme = await coupon(() => target || this.message.atTarget);
-
-      return this.replyMeme(meme);
-    });
-
-    this.set(['.pa', '爬']).action(async (target) => {
-      const meme = await pa(() => target || this.message.atTarget);
-
-      return this.replyMeme(meme);
-    });
-  }
-
-  replyMeme(meme?: MessageType.Image) {
-    if (meme) {
-      return [this.message.type === 'GroupMessage' ? this.atReceive() : Message.Plain(''), meme];
-    }
+function replyMeme(meme: MessageType.Image | undefined, at?: MessageType.At) {
+  if (meme) {
+    return (at ? [at, meme] : [meme]) as MessageChain;
   }
 }
+
+export const memes = [
+  define(['.dear', '亲亲'], async (ctx) =>
+    replyMeme(await dear(getTarget(ctx)), ctx.atSender())
+  ),
+  define(['.pet', '摸摸'], async (ctx) =>
+    replyMeme(await pet(getTarget(ctx)), ctx.atSender())
+  ),
+  define(['.marry', '和我结婚'], async (ctx) =>
+    replyMeme(await marry(getTarget(ctx)), ctx.atSender())
+  ),
+  define(['.coupon', '陪睡'], async (ctx) =>
+    replyMeme(await coupon(getTarget(ctx)), ctx.atSender())
+  ),
+  define(['.pa', '爬'], async (ctx) =>
+    replyMeme(await pa(getTarget(ctx)), ctx.atSender())
+  )
+];

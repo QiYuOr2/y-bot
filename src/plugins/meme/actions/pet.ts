@@ -19,9 +19,7 @@ const SpriteSizes = [
   [20, 40, AvatarSize, AvatarSize]
 ];
 
-export default async function pet(getTarget: () => number) {
-  const target = getTarget();
-
+export default async function pet(target?: string | number) {
   if (!target) { return; }
 
   const [encoder] = createGif(TmpPath, { w: CanvasSize, h: CanvasSize });

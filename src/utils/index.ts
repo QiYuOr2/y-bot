@@ -24,3 +24,10 @@ export function omit<T, K extends keyof T>(target: T, ...keys: K[]) {
   };
   return action(target, keys.pop()!);
 };
+
+/**
+ * 包装为数组
+ */
+export function wrapArray<T>(raw: T | T[]) {
+  return !Array.isArray(raw) ? [raw] : raw;
+}

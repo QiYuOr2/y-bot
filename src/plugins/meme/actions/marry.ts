@@ -13,9 +13,7 @@ const CanvasSize = {
 
 const BackgroundPath = assets('images/marry.png');
 
-export default async function marry(getTarget: () => number) {
-  const target = getTarget();
-
+export default async function marry(target?: string | number) {
   if (!target) { return; }
 
   const [encoder] = createGif(TmpPath, { w: CanvasSize.Width, h: CanvasSize.Height });

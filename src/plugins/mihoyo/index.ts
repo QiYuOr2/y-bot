@@ -1,6 +1,6 @@
 import { AppWishResult, GenshinGachaKit } from 'genshin-gacha-kit';
 import { Message } from 'mirai-ts';
-import Plugin from '../../core/plugin';
+import Plugin from '../../core-old/plugin';
 
 const PoolTypeR = {
   新手: 100,

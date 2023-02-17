@@ -1,5 +1,5 @@
 import { Message } from 'mirai-ts';
-import Plugin from '../../core/plugin';
+import Plugin from '../../core-old/plugin';
 import { MessageChain } from '../../types/message';
 import { isUndefined } from '../../utils';
 

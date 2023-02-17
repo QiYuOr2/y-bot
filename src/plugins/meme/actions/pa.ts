@@ -13,9 +13,7 @@ const CanvasSize = {
 
 const BackgroundPath = assets('images/pa.png');
 
-export default async function pa(getTarget: () => number) {
-  const target = getTarget();
-
+export default async function pa(target?: string | number) {
   if (!target) { return; }
 
   const [encoder] = createGif(TmpPath, { w: CanvasSize.Width, h: CanvasSize.Height });

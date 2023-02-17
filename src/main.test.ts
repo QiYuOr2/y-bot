@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'js-yaml';
 import { MiraiApiHttpSetting } from 'mirai-ts';
-import { define } from './core2/define';
-import { createApp } from './core2/application';
+import { define } from './core/define';
+import { createApp } from './core/application';
 
 const settings = yaml.load(
   fs.readFileSync(path.resolve(__dirname, '../../../app/mcl/config/net.mamoe.mirai-api-http/setting.yml'), 'utf8')
@@ -19,7 +19,7 @@ createApp({ qq: 2799397589, settings })
   .listen();
 
 // import { Mirai } from 'mirai-ts';
-// import Entry from './core/entry';
+// import Entry from './core-old/entry';
 //
 // (async () => {
 //   const result = await Entry.create({} as Mirai)
