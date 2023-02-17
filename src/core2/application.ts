@@ -45,9 +45,10 @@ class Application {
     return this;
   }
 
-  async listen() {
-    await this.#context.mirai.link(this.#qq);
-    this.#context.mirai.listen();
+  listen() {
+    this.#context.mirai.link(this.#qq).then(() => {
+      this.#context.mirai.listen();
+    });
   }
 }
 

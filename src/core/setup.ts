@@ -4,10 +4,10 @@ import { isUndefined, readSensitiveWords } from '../utils';
 import Entry from './entry';
 
 type SetupOptions = {
-  qq: number;
-  settings: MiraiApiHttpSetting;
-  // eslint-disable-next-line no-unused-vars
-  handler?: (msg: any) => void;
+    qq: number;
+    settings: MiraiApiHttpSetting;
+    // eslint-disable-next-line no-unused-vars
+    handler?: (msg: any) => void;
 };
 
 export default async function setup(options: SetupOptions) {
@@ -24,14 +24,16 @@ export default async function setup(options: SetupOptions) {
     const isAtMe = (message as MessageType.GroupMessage)?.isAt?.() ?? false;
 
     const result = await Entry.create(mirai)
-      .use((ctx) => { ctx.memberList = memberList; })
+      .use((ctx) => {
+        ctx.memberList = memberList;
+      })
       .receive({ ...(message as Omit<ReceiveMessage, 'isAtMe' | 'atTarget'>), isAtMe })
       .toReplyMessage();
 
     !isUndefined(result) && message.reply(result);
 
     readSensitiveWords().some((w) => message.plain.includes(w)) &&
-      message.reply('检测到敏感词汇！请注意发言用词！', true);
+        message.reply('检测到敏感词汇！请注意发言用词！', true);
   });
 
   mirai.listen();

@@ -4,15 +4,32 @@
 
 ## 功能
 
+- [ ] 支持通过页面配置自动回复消息
+- [ ] 部分内容配置化
 - [x] 关键词自动回复
 - [x] roll点
 - [x] 抽卡模拟
 - [x] 定时任务
 - [x] 明日方舟 bilibili 最新动态监控
-- [x] 生成狂亲表情包
-- [x] 生成摸摸表情包
-- [x] 生成结婚登记表情包
+- [x] 表情包
+  - [x] 狂亲
+  - [x] 摸摸
+  - [x] 结婚登记表
 - [x] 塔罗牌生成
+
+## 部署项目
+
+1. 安装 [MCL](https://github.com/mamoe/mirai/blob/dev/docs/ConsoleTerminal.md)
+2. 将 `main.ts` 中的配置文件路径 `../../../app/mcl/config/net.mamoe.mirai-api-http/setting.yml` 替换为你的配置文件路径
+3. 安装项目依赖并运行
+
+```shell
+pnpm install # or npm install
+
+pnpm add pm2 -g # or npm install pm2 -g
+
+pnpm deploy # or npm run deploy
+```
 
 ## 鸣谢
 
