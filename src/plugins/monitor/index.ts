@@ -1,6 +1,5 @@
 import { Message } from 'mirai-ts';
 import puppeteer from 'puppeteer';
-import Plugin from '../../core-old/plugin';
 import { defineTimer } from '@/core/define';
 import BotContext from '@/core/context';
 

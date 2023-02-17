@@ -1,6 +1,9 @@
 import { AppWishResult, GenshinGachaKit } from 'genshin-gacha-kit';
 import { Message } from 'mirai-ts';
 import Plugin from '../../core-old/plugin';
+import { define } from '@/core/define';
+import { parsePlain } from '@/utils';
+import { MessageChain } from '@/types/message';
 
 const PoolTypeR = {
   新手: 100,
@@ -9,41 +12,28 @@ const PoolTypeR = {
   武器: 302
 };
 
-export class MihoyoPlugin extends Plugin {
-  constructor() {
-    super();
+async function drawCard(pool: keyof typeof PoolTypeR, count = 10) {
+  const poolType = PoolTypeR[pool || '角色'] || 301;
 
-    this.set(['.mi', '原神十连']).action(this.drawCard);
-    this.set('原神').action(this.drawCardWithCount.bind(this));
-  }
+  const mihoyo = new GenshinGachaKit(undefined as any);
+  await mihoyo.setOfficialGachaPool(poolType as any);
 
-  async drawCardWithCount(count: string, pool: keyof typeof PoolTypeR) {
-    return this.drawCard(pool, Number(count));
-  }
+  mihoyo.multiWish(count);
 
-  async drawCard(pool: keyof typeof PoolTypeR, count = 10) {
-    const poolType = PoolTypeR[pool || '角色'] || 301;
+  const wishResult = mihoyo.getResult() as AppWishResult;
 
-    const mihoyo = new GenshinGachaKit(undefined as any);
-    await mihoyo.setOfficialGachaPool(poolType as any);
+  const messageResult = Object.keys(wishResult).reduce((result, k) => {
+    const level = `${k}====\n`;
+    const currentLevelResult = wishResult[k as keyof AppWishResult];
+    const counts = currentLevelResult
+      .reduce((countResult, item) => `${countResult}${item.name}: ${item.count}个\n`, '');
 
-    mihoyo.multiWish(count);
-
-    const wishResult = mihoyo.getResult() as AppWishResult;
-
-    const messageResult = Object.keys(wishResult).reduce((result, k) => {
-      const level = `${k}====\n`;
-      const currentLevelResult = wishResult[k as keyof AppWishResult];
-      const counts = currentLevelResult
-        .reduce((countResult, item) => `${countResult}${item.name}: ${item.count}个\n`, '');
-
-      return currentLevelResult.length < 1 ? result : `${result}${level}${counts}`;
-    }, '');
-
-    return [
-      this.atReceive(),
-      Message.Plain('\n'),
-      Message.Plain(messageResult)
-    ];
-  }
+    return currentLevelResult.length < 1 ? result : `${result}${level}${counts}`;
+  }, '');
+  return Message.Plain(messageResult);
 }
+
+export const mihoyo = define('原神', async (ctx) => {
+  const [count, pool] = parsePlain(ctx.message?.plain ?? '')._;
+  return [ctx.atSender(), Message.Plain('\n'), await drawCard(pool as any, Number(count))] as MessageChain;
+});
