@@ -25,12 +25,14 @@ function commandEq(message: string) {
 
 export function define(commands: Commands, handler: Handler): Middleware {
   return async (ctx, next) => {
-    const result = await handler(ctx);
+    const willExec = ctx.message?.plain?.split(' ')?.[0] ?? '';
 
-    wrapArray(commands)
-      .map(command)
-      .some(commandEq(ctx.message?.plain ?? '')) &&
+    if (wrapArray(commands).map(command).some(commandEq(willExec))) {
+      console.log(`[y-bot] ::${willExec}::`);
+
+      const result = await handler(ctx);
       result && ctx.message?.reply(result);
+    }
 
     await next();
   };

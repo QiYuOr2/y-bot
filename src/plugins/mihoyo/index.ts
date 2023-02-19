@@ -1,6 +1,5 @@
 import { AppWishResult, GenshinGachaKit } from 'genshin-gacha-kit';
 import { Message } from 'mirai-ts';
-import Plugin from '../../core-old/plugin';
 import { define } from '@/core/define';
 import { parsePlain } from '@/utils';
 import { MessageChain } from '@/types/message';

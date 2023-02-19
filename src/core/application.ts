@@ -46,9 +46,7 @@ class Application {
   }
 
   listen() {
-    this.#context.mirai.link(this.#qq).then(() => {
-      this.#context.mirai.listen();
-    });
+    this.#context.mirai.link(this.#qq).then(() => this.#context.mirai.listen());
   }
 }
 

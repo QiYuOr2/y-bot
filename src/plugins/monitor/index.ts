@@ -47,7 +47,7 @@ async function arknightsInBili(ctx: BotContext) {
   console.log(targetContent);
 }
 
-export const monitor = defineTimer('0 */5 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?',
+export const monitor = defineTimer('0 */2 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?',
   async (ctx) => {
     try {
       const result = await arknightsInBili(ctx);

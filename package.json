@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "npm run build && node dist/main.js",
-    "build": "tsc && node scripts/copy.js",
+    "build": "tsc && tsc-alias && node scripts/copy.js",
     "deploy": "pm2 start dist/main.js --name=bot",
     "re": "npm run build && pm2 restart bot",
     "test": "npm run build && node dist/main.test.js"
@@ -49,6 +49,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.5.0",
     "eslint-plugin-promise": "^6.1.1",
-    "esno": "^0.16.3"
+    "esno": "^0.16.3",
+    "tsc-alias": "^1.8.2"
   }
 }
