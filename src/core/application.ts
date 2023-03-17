@@ -23,6 +23,7 @@ class Application {
     const context = Object.create(this.#context);
 
     context.message = message;
+    console.log(message)
 
     return context;
   }

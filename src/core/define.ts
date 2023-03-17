@@ -42,6 +42,7 @@ export function define(commands: Commands, handler: Handler): Middleware {
  * 注册定时任务，建议不要在监听回复时使用，会导致重复注册
  */
 export function defineTimer(cron: string | string[], handler: Handler): Middleware {
+  console.log('[y-bot] timer register')
   return async (ctx, next) => {
     wrapArray(cron).forEach(c => {
       scheduleJob(c, () => {

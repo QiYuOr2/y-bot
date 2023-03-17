@@ -7,8 +7,8 @@
     "lint": "eslint .",
     "start": "npm run build && node dist/main.js",
     "build": "tsc && tsc-alias && node scripts/copy.js",
-    "deploy": "pm2 start dist/main.js --name=bot",
-    "re": "npm run build && pm2 restart bot",
+    "deploy": "pm2 start dist/main.js --name=bot --cron-restart=\"0 0 * * *\"",
+    "re": "npm run build && pm2 restart bot --cron-restart=\"0 0 * * *\"",
     "test": "npm run build && node dist/main.test.js"
   },
   "keywords": [],
