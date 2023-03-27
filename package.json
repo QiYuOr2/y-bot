@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@genshin-kit/core": "^2.6.2",
+    "@qiyuor2/utils": "0.0.1-alpha.4",
     "axios": "^0.26.1",
     "canvas": "^2.11.0",
     "cheerio": "^1.0.0-rc.10",
@@ -30,6 +31,7 @@
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "mirai-ts": "^2.4.3",
     "node-schedule": "^2.1.1",
+    "nodejieba": "^2.6.0",
     "npm": "^9.1.1",
     "pug": "^3.0.2",
     "puppeteer": "^13.5.2",

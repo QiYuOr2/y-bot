@@ -1,5 +1,5 @@
-import { Middleware } from '../types/application';
 import type BotContext from './context';
+import { Middleware } from '@/types/application';
 
 export default function compose(middleware: Middleware[]) {
   return (context: BotContext, next?: () => Promise<void>) => {

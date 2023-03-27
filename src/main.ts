@@ -3,7 +3,7 @@ import path from 'path';
 import { MiraiApiHttpSetting } from 'mirai-ts';
 import yaml from 'js-yaml';
 import { createApp } from '@/core/application';
-import { autoReply, eat, memes, mihoyo, monitor, tarot } from '@/plugins';
+import { autoReply, eat, memes, mihoyo, monitor, tarot, gpt } from '@/plugins';
 
 const settings = yaml.load(
   fs.readFileSync(
@@ -14,5 +14,5 @@ const settings = yaml.load(
 
 createApp({ qq: 2799397589, settings })
   .subscribe([monitor])
-  .subscribe([eat, tarot, mihoyo, ...autoReply, ...memes], 'message')
+  .subscribe([eat, tarot, mihoyo, gpt, ...autoReply, ...memes], 'message')
   .listen();

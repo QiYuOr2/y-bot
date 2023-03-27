@@ -1,7 +1,8 @@
 import { scheduleJob } from 'node-schedule';
-import { Middleware } from '../types/application';
-import { MessageChain } from '../types/message';
+import { pipe, wrap, map } from '@qiyuor2/utils';
 import type BotContext from './context';
+import { Middleware } from '@/types/application';
+import { MessageChain } from '@/types/message';
 import { wrapArray } from '@/utils';
 
 type Command = string | RegExp | (() => string) | (() => RegExp)
@@ -27,7 +28,9 @@ export function define(commands: Commands, handler: Handler): Middleware {
   return async (ctx, next) => {
     const willExec = ctx.message?.plain?.split(' ')?.[0] ?? '';
 
-    if (wrapArray(commands).map(command).some(commandEq(willExec))) {
+    const unwrapCommands = pipe<string[], Commands>(wrap, map(command));
+
+    if (unwrapCommands(commands).some(commandEq(willExec))) {
       console.log(`[y-bot] ::${willExec}::`);
 
       const result = await handler(ctx);

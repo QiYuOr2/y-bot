@@ -4,3 +4,4 @@ src.old/
 config/cookie
 .idea/
 config/sensitive_words_lines
+gpt-key

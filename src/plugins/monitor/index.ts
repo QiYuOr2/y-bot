@@ -34,7 +34,7 @@ async function arknightsInBili(ctx: BotContext) {
         targetContent,
         '\n=====================\n',
         '详情请前往 https://space.bilibili.com/161775300/dynamic 查看'
-      ].map(t => Message.Plain(t))
+      ].map(t => Message.Plain(t));
       await ctx.sendGroup(m, 708376391);
       await ctx.sendGroup(m, 398872071);
     }

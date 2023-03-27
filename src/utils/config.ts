@@ -113,6 +113,10 @@ export const readSensitiveWords = () => {
   }
 };
 
+export const GPTKey = () => {
+  return fs.readFileSync(path.join(__dirname, '../../config/gpt-key'), 'utf-8');
+};
+
 export const tarots = () => {
   const rootPath = assets('images/tarot/');
 
