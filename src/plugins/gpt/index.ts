@@ -26,19 +26,25 @@ interface GPTDTO {
   choices: Choice[];
 }
 
-export const gpt = define(['', '.ai'], async (ctx) => {
+/**
+ * @deprecated 代理失效
+ */
+export const gpt = define([''], async (ctx) => {
   if (ctx.message?.get('At')?.target === 2799397589 && ctx.message.plain) {
-    const { data } = await axios.post<GPTDTO>('https://qiyuor2-gpt.zeabur.app/proxy/v1/chat/completions', {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${GPTKey}`
-      },
-      data: {
+    const { data } = await axios.post<GPTDTO>(
+      'https://qiyuor2-gpt.zeabur.app/proxy/v1/chat/completions',
+      {
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: ctx.message.plain }],
         temperature: 0.7
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${GPTKey}`
+        }
       }
-    });
+    );
 
     console.log(data);
 

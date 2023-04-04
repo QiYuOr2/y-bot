@@ -3,7 +3,7 @@ import path from 'path';
 import { MiraiApiHttpSetting } from 'mirai-ts';
 import yaml from 'js-yaml';
 import { createApp } from '@/core/application';
-import { autoReply, eat, memes, mihoyo, monitor, tarot, gpt } from '@/plugins';
+import { autoReply, eat, memes, mihoyo, monitor, tarot, wordCloudCache, wordCloudTest, wordCloudTimer } from '@/plugins';
 
 const settings = yaml.load(
   fs.readFileSync(
@@ -13,6 +13,6 @@ const settings = yaml.load(
 ) as MiraiApiHttpSetting;
 
 createApp({ qq: 2799397589, settings })
-  .subscribe([monitor])
-  .subscribe([eat, tarot, mihoyo, gpt, ...autoReply, ...memes], 'message')
+  .subscribe([monitor, wordCloudTimer])
+  .subscribe([eat, tarot, mihoyo, wordCloudCache, wordCloudTest, ...autoReply, ...memes], 'message')
   .listen();

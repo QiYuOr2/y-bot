@@ -31,6 +31,7 @@ specifiers:
   kuroshiro-analyzer-kuromoji: ^1.1.0
   mirai-ts: ^2.4.3
   node-schedule: ^2.1.1
+  node-wordcloud: ^0.0.2
   nodejieba: ^2.6.0
   npm: ^9.1.1
   pug: ^3.0.2
@@ -55,6 +56,7 @@ dependencies:
   kuroshiro-analyzer-kuromoji: 1.1.0
   mirai-ts: 2.4.4
   node-schedule: 2.1.1
+  node-wordcloud: 0.0.2
   nodejieba: 2.6.0
   npm: 9.4.1
   pug: 3.0.2
@@ -2421,6 +2423,15 @@ packages:
       cron-parser: 4.7.1
       long-timeout: 0.1.1
       sorted-array-functions: 1.3.0
+    dev: false
+
+  /node-wordcloud/0.0.2:
+    resolution: {integrity: sha512-pBilo9Rjt4makDagMX9vKpSv1BxPXXGcoGQ18U0qfFl/Gw9LsNynaVGpxzDs+tOy1kiWmpCcDdVikHdMKRTR9w==}
+    dependencies:
+      canvas: 2.11.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
     dev: false
 
   /nodejieba/2.6.0:

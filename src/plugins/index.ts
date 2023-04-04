@@ -7,3 +7,4 @@ export * from './monitor';
 export * from './meme';
 export * from './tarot';
 export * from './gpt';
+export * from './word-cloud';
