@@ -30,13 +30,14 @@ let cache: string[] = [];
 /**
  * 分词存储
  */
-export const wordCloudCache = define([''], (ctx) => {
-  if (!ctx.message?.plain) {
+export const wordCloudCache = define([/[\s\S]/], (ctx) => {
+  if (!ctx.message?.plain && (!ctx.message?.group(480557906) && !ctx.message?.group(646247690))) {
     return;
   }
-  cache.push(ctx.message.plain);
+  ctx.message?.plain && cache.push(ctx.message.plain);
+  console.log('数据进入缓存', cache)
 
-  if (cache.length > 20) {
+  if (cache.length > 10) {
     saveDB(cache.slice());
     cache = [];
   }
@@ -54,7 +55,7 @@ const generateWordCloud = () => {
 
   wc.draw();
 
-  const filePath = TmpPath + '.png';
+  const filePath = TmpPath.replace('db', 'images') + '.png';
 
   fs.writeFileSync(TmpPath, '{}', 'utf-8');
   fs.writeFileSync(filePath, canvas.toBuffer('image/png'));
@@ -65,13 +66,13 @@ const generateWordCloud = () => {
 export const wordCloudTest = define('.wordtest', () => {
   const filePath = generateWordCloud();
   if (filePath) {
-    return [Message.Plain('今日词云'), localImage(filePath)];
+    return [Message.Plain('今日词云'), localImage('480557906.png')];
   }
 });
 
 export const wordCloudTimer = defineTimer('0 0 23 * * ?', (ctx) => {
   const filePath = generateWordCloud();
   if (filePath) {
-    ctx.sendGroup([Message.Plain('今日词云'), localImage(filePath)], 480557906);
+    ctx.sendGroup([Message.Plain('今日词云'), localImage('480557906.png')], 480557906);
   }
 });
