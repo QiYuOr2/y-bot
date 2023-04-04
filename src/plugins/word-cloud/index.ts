@@ -69,9 +69,9 @@ export const wordCloudTest = define('.wordtest', () => {
   }
 });
 
-export const wordCloudTimer = defineTimer('0 0 23 * * ?', () => {
+export const wordCloudTimer = defineTimer('0 0 23 * * ?', (ctx) => {
   const filePath = generateWordCloud();
   if (filePath) {
-    return [Message.Plain('今日词云'), localImage(filePath)];
+    ctx.sendGroup([Message.Plain('今日词云'), localImage(filePath)], 480557906);
   }
 });
