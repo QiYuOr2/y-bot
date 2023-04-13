@@ -33,6 +33,10 @@ async function drawCard(pool: keyof typeof PoolTypeR, count = 10) {
 }
 
 export const mihoyo = define('原神', async (ctx) => {
+  if (ctx.message?.plain === '原神') {
+    return;
+  }
+
   const [count, pool] = parsePlain(ctx.message?.plain ?? '')._;
   return [ctx.atSender(), Message.Plain('\n'), await drawCard(pool as any, Number(count))] as MessageChain;
 });
