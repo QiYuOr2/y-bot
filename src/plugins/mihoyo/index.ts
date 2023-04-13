@@ -34,7 +34,7 @@ async function drawCard(pool: keyof typeof PoolTypeR, count = 10) {
 
 export const mihoyo = define('原神', async (ctx) => {
   if (ctx.message?.plain === '原神') {
-    return;
+    return [Message.Plain('你刚刚...说了原神是吧')];
   }
 
   const [count, pool] = parsePlain(ctx.message?.plain ?? '')._;

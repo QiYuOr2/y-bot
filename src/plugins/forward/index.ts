@@ -7,13 +7,23 @@ const CanForwardGroup = {
 };
 
 export const forward = define('.转发', (ctx) => {
-  const target = ctx.message?.group(CanForwardGroup.One)
-    ? CanForwardGroup.Two
-    : ctx.message?.group(CanForwardGroup.Two) ? CanForwardGroup.One : '';
+  let target;
+  let sender;
 
-  if (!target) {
+  if (ctx.message?.group(CanForwardGroup.One)) {
+    target = CanForwardGroup.Two
+    sender = CanForwardGroup.One
+  } 
+  if (ctx.message?.group(CanForwardGroup.Two) ) {
+    target = CanForwardGroup.One
+    sender = CanForwardGroup.Two
+  }
+
+
+  if (!target || !sender) {
     return;
   }
 
-  ctx.sendGroup([Message.Plain(`隔壁群的 ${(ctx.message?.sender as any)?.memberName || (ctx.message?.sender as any)?.nickname || '未知用户'}`), Message.Plain(ctx.message?.plain || '')], target);
+  ctx.sendGroup([Message.Plain(`隔壁群的 ${(ctx.message?.sender as any)?.memberName || (ctx.message?.sender as any)?.nickname || '未知用户'} 发来一条消息\n`), Message.Plain(ctx.message?.plain.replace('.转发 ', '>') || '')], target);
+  ctx.sendGroup([Message.Plain('消息已发送喵')], sender)
 });
