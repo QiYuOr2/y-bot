@@ -7,7 +7,9 @@ import { assets, localImage } from '@/utils';
 
 const WordCloud = require('node-wordcloud')();
 
-jieba.load();
+jieba.load({
+  stopWordDict: assets('db/stopword.txt')
+});
 
 const TmpFilename = '480557906';
 const TmpPath = assets(`db/${TmpFilename}`);
@@ -16,7 +18,7 @@ const saveDB = (cache: string[]) => {
   const raw = JSON.parse(fs.readFileSync(TmpPath, 'utf-8') || '{}');
 
   const data = Object.fromEntries(
-    cache.map(item => jieba.cut(item).map(c => c.toUpperCase())).flat().reduce((result, current) => {
+    cache.map(item => jieba.cut(item).filter(c => c.length > 1).map(c => c.toUpperCase())).flat().reduce((result, current) => {
       result.set(current, (result.get(current) ?? 0) + 1);
 
       return result;
@@ -35,7 +37,7 @@ export const wordCloudCache = define([/[\s\S]/], (ctx) => {
     return;
   }
   ctx.message?.plain && cache.push(ctx.message.plain);
-  console.log('数据进入缓存', cache)
+  console.log('数据进入缓存', cache);
 
   if (cache.length > 10) {
     saveDB(cache.slice());
@@ -44,14 +46,14 @@ export const wordCloudCache = define([/[\s\S]/], (ctx) => {
 });
 
 const generateWordCloud = () => {
-  const list = Object.entries(JSON.parse(fs.readFileSync(TmpPath, 'utf-8') || '{}'));
+  const list: [string, number][] = Object.entries(JSON.parse(fs.readFileSync(TmpPath, 'utf-8') || '{}'));
   if (list.length < 1) {
     return;
   }
 
   const canvas = createCanvas(500, 500);
 
-  const wc = WordCloud(canvas, { list });
+  const wc = WordCloud(canvas, { list: list.filter((item) => item[1] > 5) });
 
   wc.draw();
 
