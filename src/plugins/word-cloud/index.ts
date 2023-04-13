@@ -8,6 +8,7 @@ import { assets, localImage } from '@/utils';
 const WordCloud = require('node-wordcloud')();
 
 jieba.load({
+  userDict: assets('db/user.txt'),
   stopWordDict: assets('db/stopword.txt')
 });
 
